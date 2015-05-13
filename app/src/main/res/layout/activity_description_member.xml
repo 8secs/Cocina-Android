@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:padding="20dp"
+    tools:context="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.DescriptionMember">
+
+    <TextView
+        android:id="@+id/desclb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/your_description"
+        android:gravity="center_horizontal"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+    <EditText
+        android:id="@+id/etDesc"
+        android:hint="@string/your_description"
+        android:textColorHint="@color/primary_text"
+        android:textColor="@color/primary_text"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/desclb"
+        android:lines="12"
+        android:gravity="top|left"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        />
+
+</RelativeLayout>

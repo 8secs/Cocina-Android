@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_overlay">#66000000</color>
+    <color name="grey_background">#E0F2F1</color>
+
+    <color name="color_preloader_start">#000000</color>
+    <color name="color_preloader_center">#000000</color>
+    <color name="color_preloader_end">#ff56a9c7</color>
+
+    <!-- Material DEFAULT colors -->
+    <color name="material_drawer_primary">#ff009688</color>
+    <color name="material_drawer_primary_dark">#66009688</color>
+    <color name="material_drawer_primary_light">#ff80cbc4</color>
+    <color name="material_drawer_accent">#ff21272b</color>
+    <color name="material_drawer_window_background">#F9F9F9</color>
+    <color name="material_drawer_background">#F9F9F9</color>
+    <!-- Material DEFAULT text / items colors -->
+    <color name="material_drawer_icons">#FFF</color>
+    <color name="material_drawer_primary_text">#212121</color>
+    <color name="material_drawer_secondary_text">#727272</color>
+    <color name="material_drawer_hint_text">#B8B8B8</color>
+    <color name="material_drawer_divider">#B6B6B6</color>
+    <!-- Material DEFAULT drawer colors -->
+    <color name="material_drawer_selected">#E8E8E8</color>
+    <color name="material_drawer_selected_text">#66009688</color>
+
+    <color name="photo_base">#99FFFFFF</color>
+    <color name="selected_base_btn">#E9621F</color>
+</resources>

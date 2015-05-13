@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:padding="20dp"
+    tools:context="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EditFullnameMember">
+
+    <TextView
+        android:id="@+id/nombrelb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/nameHint"
+        android:gravity="center_horizontal"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+    <EditText
+        android:id="@+id/etName"
+        android:hint="@string/nameHint"
+        android:textColorHint="@color/primary_text"
+        android:textColor="@color/primary_text"
+        android:inputType="textCapSentences"
+        android:maxLength="15"
+        android:layout_below="@id/nombrelb"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+    <TextView
+        android:id="@+id/surnamelb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/surnameHint"
+        android:layout_below="@id/etName"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+    <EditText
+        android:id="@+id/etSurname"
+        android:hint="@string/surnameHint"
+        android:textColorHint="@color/primary_text"
+        android:textColor="@color/primary_text"
+        android:inputType="textCapSentences"
+        android:maxLength="15"
+        android:layout_below="@id/surnamelb"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+
+</RelativeLayout>

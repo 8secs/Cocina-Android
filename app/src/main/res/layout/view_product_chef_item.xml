@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.homecooking.ykecomo.ui.view.ProductChefItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:background="@drawable/background_game">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/product_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/PRODUCT_IMAGE" />
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_below="@id/product_thumb"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/accent_material_light" />
+
+    </RelativeLayout>
+</com.homecooking.ykecomo.ui.view.ProductChefItemView>

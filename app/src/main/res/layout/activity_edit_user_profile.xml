@@ -1,0 +1,50 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.visitaelaljarafe.homecooking.ui.activity.userProfile.EditUserProfileActivity">
+
+    <RelativeLayout android:id="@+id/photo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFF"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="300dp"/>
+
+        <Button android:id="@+id/new_photo_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_below="@id/avatar"
+            android:textColor="#FFFFFF"
+            android:text="@string/change_image"/>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/primary_text"
+            android:layout_below="@id/new_photo_btn"
+            android:gravity="center_horizontal"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <Button
+            android:id="@+id/edit_user_name_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="editar nombre"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/user_name"/>
+
+    </RelativeLayout>
+</ScrollView>

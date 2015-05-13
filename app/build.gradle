@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.homecooking.ykecomo.app"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    provided 'org.parceler:parceler:0.2.14-SNAPSHOT'
+    compile('com.mikepenz.materialdrawer:library:2.9.5@aar') {
+        transitive = true
+    }
+    compile 'com.mikepenz.iconics:octicons-typeface:2.2.0@aar'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:support-v13:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:recyclerview-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'org.parceler:parceler:0.2.14'
+    compile 'pl.charmas.android:android-reactive-location:0.4@aar'
+    compile 'io.reactivex:rxjava:1.0.3'
+    compile 'io.reactivex:rxandroid:0.23.0'
+    compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.lsjwzh:materialloadingprogressbar:0.5.3-RELEASE'
+    compile 'com.google.android.gms:play-services-location:7.0.0'
+    compile 'com.google.android.gms:play-services-maps:7.0.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
+    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
+    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar-abc:3.1.2'
+    compile 'com.github.pedrovgs:draggablepanel:1.8'
+}

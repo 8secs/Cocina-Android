@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.homecooking.ykecomo.ui.preferences.ImagePreference
+        android:key="@string/MEMBER_AVATAR"/>
+
+    <PreferenceCategory
+        android:title="@string/title_activity_view_user_profile">
+
+        <Preference
+            android:title="@string/nameHint"
+            android:key="@string/MEMBER_NAME_KEY"
+            android:defaultValue="@string/MEMBER_DEFAULT_VALUE"
+            />
+
+        <Preference
+            android:title="@string/your_address"
+            android:key="@string/ADDRESS_KEY"
+            android:defaultValue="@string/ADDRESS_DEFAULT_VALUE"/>
+
+        <Preference
+            android:title="@string/tu_email"
+            android:key="@string/EMAIL_KEY"
+            android:defaultValue="@string/EMAIL_DEFAULT_VALUE"/>
+
+        <Preference
+            android:title="@string/your_description"
+            android:key="@string/DESCRIPTION_KEY"
+            android:defaultValue="@string/DESCRIPTION_DEFAULT_VALUE"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,120 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.AddressMember">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/addresslb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/address"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:hint="@string/your_address"
+            android:textColorHint="@color/primary_text"
+            android:textColor="@color/primary_text"
+            android:inputType="textCapSentences"
+            android:layout_below="@id/addresslb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/citylb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/city"
+            android:layout_below="@id/etAddress"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <EditText
+            android:id="@+id/etCity"
+            android:hint="@string/your_city"
+            android:textColorHint="@color/primary_text"
+            android:textColor="@color/primary_text"
+            android:inputType="textCapSentences"
+            android:layout_below="@id/citylb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/statelb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/state"
+            android:layout_below="@id/etCity"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <EditText
+            android:id="@+id/etState"
+            android:hint="@string/your_state"
+            android:textColorHint="@color/primary_text"
+            android:textColor="@color/primary_text"
+            android:inputType="textCapSentences"
+            android:layout_below="@id/statelb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/cplb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/cp"
+            android:layout_below="@id/etState"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <EditText
+            android:id="@+id/etCp"
+            android:hint="@string/your_cp"
+            android:textColorHint="@color/primary_text"
+            android:textColor="@color/primary_text"
+            android:inputType="number"
+            android:maxLength="15"
+            android:layout_below="@id/cplb"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/countrylb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/COUNTRY_LB"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/etCp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+        <Spinner
+            android:id="@+id/spinnerCountry"
+            android:layout_width="match_parent"
+            android:layout_below="@id/countrylb"
+            android:popupBackground="@color/background_material_light"
+            android:layout_height="wrap_content"></Spinner>
+
+
+
+    </RelativeLayout>
+</ScrollView>
