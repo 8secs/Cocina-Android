@@ -7,9 +7,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.SignupActivity;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class CreateMemberAction implements Action1<ApiResponse> {
 
     private SignupActivity mActivity;

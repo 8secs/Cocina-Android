@@ -10,10 +10,6 @@ import android.view.View;
 
 import com.homecooking.ykecomo.R;
 
-
-/**
- * Created by andres on 19/2/15.
- */
 public class DividerDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = { android.R.attr.listDivider };

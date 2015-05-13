@@ -18,9 +18,7 @@ import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
-/**
- * Created by andres on 21/02/15.
- */
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductItemHolder> {
 
     public void setItems(ArrayList<Product> mItems) {

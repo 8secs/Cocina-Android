@@ -4,9 +4,7 @@ import android.location.Location;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 26/02/15.
- */
+
 public class LocationToObjectFunc implements Func1<Location, Location> {
     @Override
     public Location call(Location location) {

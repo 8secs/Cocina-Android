@@ -17,10 +17,6 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by andres on 16/3/15.
- */
-@SuppressWarnings("")
 public class PhotoHandler implements Camera.PictureCallback {
 
     private final Context mContext;

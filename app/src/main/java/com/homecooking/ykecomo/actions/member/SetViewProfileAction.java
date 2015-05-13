@@ -10,9 +10,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 25/03/15.
- */
 public class SetViewProfileAction implements Action1<Member> {
 
     private BaseUserProfileActivity mActivity;

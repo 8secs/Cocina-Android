@@ -11,9 +11,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-/**
- * Created by andres on 19/2/15.
- */
 public class ItemTypeAdapterFactory implements TypeAdapterFactory {
 
     public String[] mType;

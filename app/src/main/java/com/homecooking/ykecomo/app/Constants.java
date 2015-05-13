@@ -1,8 +1,6 @@
 package com.homecooking.ykecomo.app;
 
-/**
- * Created by andres on 12/05/15.
- */
+
 public class Constants {
 
     public static String IS_FIRST_TIME_STR = "is_first_time";

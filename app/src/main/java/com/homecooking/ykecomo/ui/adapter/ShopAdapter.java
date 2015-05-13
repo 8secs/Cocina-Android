@@ -17,9 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 
-/**
- * Created by andres on 20/2/15.
- */
+
 public class ShopAdapter extends AbstractListAdapter<ProductCategory, ShopAdapter.ViewHolder>{
 
     private final Context mContext;

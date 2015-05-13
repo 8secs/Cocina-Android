@@ -4,9 +4,6 @@ import android.content.Context;
 import android.preference.Preference;
 import android.util.AttributeSet;
 
-/**
- * Created by andres on 30/03/15.
- */
 public class UserFullnamePreference extends Preference {
 
     private Context mContext;

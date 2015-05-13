@@ -11,9 +11,6 @@ import java.util.ArrayList;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class LoginFbMemberAction implements Action1<ApiResponse> {
 
     private LoginActivity mActivity;

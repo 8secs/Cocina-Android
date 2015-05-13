@@ -7,9 +7,6 @@ import com.homecooking.ykecomo.rest.model.ApiResponse;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 13/03/15.
- */
 public class CreateMemberFunc implements Func1<ApiResponse, Observable<ApiResponse>> {
 
     @Override

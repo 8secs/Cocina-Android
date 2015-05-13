@@ -4,9 +4,7 @@ import com.homecooking.ykecomo.ui.activity.MenuPrincipalActivity;
 
 import rx.functions.Action0;
 
-/**
- * Created by andres on 14/03/15.
- */
+
 public class GetProductCategoryAction implements Action0 {
 
     private MenuPrincipalActivity mActivity;

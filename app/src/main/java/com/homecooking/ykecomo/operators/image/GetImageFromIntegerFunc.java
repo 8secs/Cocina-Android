@@ -7,9 +7,7 @@ import com.homecooking.ykecomo.rest.model.ApiResponse;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 28/03/15.
- */
+
 public class GetImageFromIntegerFunc implements Func1<Integer, Observable<ApiResponse>> {
 
     @Override

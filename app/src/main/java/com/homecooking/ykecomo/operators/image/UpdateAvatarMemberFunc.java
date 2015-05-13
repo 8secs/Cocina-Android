@@ -12,9 +12,6 @@ import java.util.Hashtable;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 28/03/15.
- */
 public class UpdateAvatarMemberFunc implements Func1<Image, Observable<ApiResponse>> {
 
     private BaseUserProfileActivity mActivity;

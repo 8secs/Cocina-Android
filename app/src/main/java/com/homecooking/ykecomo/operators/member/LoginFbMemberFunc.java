@@ -11,9 +11,6 @@ import java.util.Hashtable;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class LoginFbMemberFunc implements Func1<ApiResponse, Observable<ApiResponse>> {
     private ArrayList<Hashtable<String, String>> mParams;
 

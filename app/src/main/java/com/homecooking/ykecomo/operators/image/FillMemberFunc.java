@@ -9,9 +9,7 @@ import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 28/03/15.
- */
+
 public class FillMemberFunc implements Func1<ApiResponse, Member> {
 
     private BaseUserProfileActivity mActivity;

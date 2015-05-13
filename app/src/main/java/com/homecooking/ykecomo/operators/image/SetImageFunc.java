@@ -6,9 +6,7 @@ import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 28/03/15.
- */
+
 public class SetImageFunc implements Func1<ApiResponse, Image> {
 
     private BaseUserProfileActivity mActivity;

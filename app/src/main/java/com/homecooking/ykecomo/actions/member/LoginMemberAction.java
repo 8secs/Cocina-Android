@@ -6,9 +6,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.LoginActivity;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class LoginMemberAction implements Action1<ApiResponse> {
 
     private LoginActivity mActivity;

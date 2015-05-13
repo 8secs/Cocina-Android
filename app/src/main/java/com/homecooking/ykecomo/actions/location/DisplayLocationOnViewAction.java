@@ -4,9 +4,7 @@ import android.location.Location;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 26/02/15.
- */
+
 public class DisplayLocationOnViewAction implements Action1<Location> {
 
     private Location target;

@@ -8,9 +8,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 26/03/15.
- */
 public class SetEditProfileAction implements Action1<Member> {
 
     private BaseUserProfileActivity mActivity;

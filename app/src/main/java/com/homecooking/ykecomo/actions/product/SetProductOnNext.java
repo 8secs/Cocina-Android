@@ -6,9 +6,7 @@ import com.homecooking.ykecomo.ui.activity.ProductDetailActivity;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 15/03/15.
- */
+
 public class SetProductOnNext implements Action1<Product> {
 
     private ProductDetailActivity mActivity;

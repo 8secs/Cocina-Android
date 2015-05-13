@@ -8,9 +8,6 @@ import com.homecooking.ykecomo.ui.activity.MenuPrincipalActivity;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class GetProductCategoriesFunc implements Func1<ApiResponse, Observable<ProductCategory>> {
 
     private MenuPrincipalActivity mActivity;

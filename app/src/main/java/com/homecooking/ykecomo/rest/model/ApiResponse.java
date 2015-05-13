@@ -16,9 +16,6 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-/**
- * Created by andres on 19/2/15.
- */
 @Parcel
 public class ApiResponse {
 

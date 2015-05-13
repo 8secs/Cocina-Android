@@ -7,10 +7,6 @@ import android.widget.TextView;
 
 import com.homecooking.ykecomo.R;
 
-
-/**
- * Created by andres on 20/2/15.
- */
 public class ShopItemView extends GridLayout {
     
     private TextView mTitle;

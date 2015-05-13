@@ -7,9 +7,6 @@ import com.homecooking.ykecomo.rest.model.ApiResponse;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class GetImageProductGategoryFunc implements Func1<ApiResponse, Observable<Image>> {
 
     @Override

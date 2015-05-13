@@ -17,9 +17,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 
-/**
- * Created by andres on 27/04/15.
- */
 public class ChefAdapter extends AbstractListAdapter<Member, ChefAdapter.ViewHolder> {
 
     private final Context mContext;

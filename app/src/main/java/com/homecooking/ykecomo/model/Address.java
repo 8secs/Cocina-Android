@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-/**
- * Created by andres on 24/2/15.
- */
 @Parcel
 public class Address {
     

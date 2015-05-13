@@ -8,9 +8,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 17/03/15.
- */
 public class SetAvatarAddressToMemberFunc implements Func1<Member, Observable<Member>> {
 
     private BaseUserProfileActivity mActivity;

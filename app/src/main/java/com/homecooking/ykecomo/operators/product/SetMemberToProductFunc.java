@@ -7,9 +7,6 @@ import com.homecooking.ykecomo.ui.activity.ProductsActivity;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 15/03/15.
- */
 public class SetMemberToProductFunc implements Func1<Product, Product> {
 
     private ProductsActivity mActivity;

@@ -44,9 +44,6 @@ import rx.schedulers.Schedulers;
 public class ChefActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "ChefsActity";
-
-    //private SlidingUpPanelLayout mLayout;
-
     protected int mChefID;
     protected Member mMember;
     protected ArrayList<Product> mProducts;

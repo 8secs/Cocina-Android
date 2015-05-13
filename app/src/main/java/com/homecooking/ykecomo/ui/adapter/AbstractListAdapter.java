@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by andres on 26/04/15.
- */
+
 public abstract class AbstractListAdapter<V, K extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<K> {
 
     protected List<V> mData = new ArrayList<V>();

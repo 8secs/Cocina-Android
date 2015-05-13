@@ -9,9 +9,7 @@ import com.homecooking.ykecomo.rest.typeAdapter.ArrayAdapter;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-/**
- * Created by andres on 21/02/15.
- */
+
 public class ArrayAdapterFactory implements TypeAdapterFactory {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

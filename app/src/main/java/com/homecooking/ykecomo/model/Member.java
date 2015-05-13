@@ -6,9 +6,7 @@ import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
-/**
- * Created by andres on 21/02/15.
- */
+
 @Parcel
 public class Member {
 

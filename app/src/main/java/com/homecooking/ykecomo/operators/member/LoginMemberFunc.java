@@ -9,9 +9,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.LoginActivity;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 14/03/15.
- */
 public class LoginMemberFunc implements Func1<Auth, Observable<ApiResponse>> {
 
     private LoginActivity mActivity;

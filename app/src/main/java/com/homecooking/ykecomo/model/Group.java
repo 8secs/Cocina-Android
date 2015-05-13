@@ -2,9 +2,7 @@ package com.homecooking.ykecomo.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by andres on 26/04/15.
- */
+
 public class Group {
 
     public int id;

@@ -5,9 +5,6 @@ import com.homecooking.ykecomo.ui.activity.ProductsActivity;
 
 import rx.functions.Action0;
 
-/**
- * Created by andres on 15/03/15.
- */
 public class GetProductCompletedAction implements Action0 {
 
     private ProductsActivity mActivity;

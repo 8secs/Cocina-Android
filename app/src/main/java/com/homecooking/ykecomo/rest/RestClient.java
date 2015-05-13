@@ -8,9 +8,7 @@ import com.homecooking.ykecomo.rest.typeAdapterFactory.ItemTypeAdapterFactory;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
-/**
- * Created by andres on 19/2/15.
- */
+
 public class RestClient {
 
     private static final String BASE_URL = "http://cocina.visitaelaljarafe.com/";

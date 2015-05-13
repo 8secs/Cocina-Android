@@ -23,9 +23,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Created by andres on 12/05/15.
- */
 public class App extends Application {
 
     private static RestClient restClient;
@@ -85,9 +82,6 @@ public class App extends Application {
         else return false;
     }
 
-    /**
-     *
-     */
     public static void setMemberPrefs(){
         SharedPreferences preferences = App.getPref();
         SharedPreferences.Editor editor = preferences.edit();

@@ -19,10 +19,6 @@ import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import rx.Observable;
 
-
-/**
- * Created by andres on 19/2/15.
- */
 public interface ApiService {
 
     @GET("/api/Page")

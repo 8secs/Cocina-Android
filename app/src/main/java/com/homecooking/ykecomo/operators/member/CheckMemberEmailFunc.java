@@ -8,9 +8,7 @@ import java.util.Hashtable;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 14/03/15.
- */
+
 public class CheckMemberEmailFunc implements Func1<ApiResponse, ApiResponse> {
 
     private ArrayList<Hashtable<String, String>> mParams;

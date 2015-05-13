@@ -8,9 +8,7 @@ import android.widget.TextView;
 
 import com.homecooking.ykecomo.R;
 
-/**
- * Created by andres on 28/04/15.
- */
+
 public class ChefItemView extends CardView {
 
     private TextView mTitle;

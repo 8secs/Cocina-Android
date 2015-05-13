@@ -18,9 +18,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-/**
- * Created by andres on 13/05/15.
- */
 public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
     @Override

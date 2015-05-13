@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-/**
- * Created by andres on 20/2/15.
- */
 @Parcel
 public class ProductCategory {
 

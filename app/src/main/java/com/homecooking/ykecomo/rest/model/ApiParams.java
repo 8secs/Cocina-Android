@@ -5,9 +5,7 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-/**
- * Created by andres on 13/03/15.
- */
+
 @Parcel
 public class ApiParams {
 

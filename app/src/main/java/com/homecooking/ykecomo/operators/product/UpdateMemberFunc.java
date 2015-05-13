@@ -8,9 +8,6 @@ import com.homecooking.ykecomo.ui.activity.ProductsActivity;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 16/3/15.
- */
 public class UpdateMemberFunc implements Func1<Member, Observable<Product>> {
 
     private ProductsActivity mActivity;

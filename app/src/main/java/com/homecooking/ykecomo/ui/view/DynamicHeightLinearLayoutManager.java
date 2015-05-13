@@ -6,9 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by andres on 11/05/15.
- */
 public class DynamicHeightLinearLayoutManager extends LinearLayoutManager {
 
     public DynamicHeightLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {

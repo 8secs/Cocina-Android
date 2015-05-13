@@ -9,9 +9,7 @@ import android.widget.TextView;
 import com.homecooking.ykecomo.R;
 
 
-/**
- * Created by andres on 21/02/15.
- */
+
 public class ProductItemView extends CardView {
 
     private TextView mTitle;

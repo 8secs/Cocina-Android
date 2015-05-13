@@ -7,9 +7,6 @@ import com.homecooking.ykecomo.app.Constants;
 
 import rx.functions.Action1;
 
-/**
- * Created by andres on 15/03/15.
- */
 public class SetLocationAction implements Action1<Location> {
 
     private String mType;

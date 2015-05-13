@@ -4,9 +4,7 @@ import android.location.Location;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 26/2/15.
- */
+
 public class LocationToStringFunc implements Func1<Location, String> {
     @Override
     public String call(Location location) {

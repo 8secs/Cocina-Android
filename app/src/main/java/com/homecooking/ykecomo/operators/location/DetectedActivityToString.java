@@ -4,9 +4,6 @@ import com.google.android.gms.location.DetectedActivity;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 26/2/15.
- */
 public class DetectedActivityToString implements Func1<DetectedActivity, String> {
     @Override
     public String call(DetectedActivity detectedActivity) {

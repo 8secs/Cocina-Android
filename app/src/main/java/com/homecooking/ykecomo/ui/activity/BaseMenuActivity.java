@@ -55,9 +55,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by andres on 12/05/15.
- */
+
 public class BaseMenuActivity extends AppCompatActivity implements
         SwipeRefreshLayout.OnRefreshListener {
 

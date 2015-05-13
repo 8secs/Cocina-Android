@@ -8,9 +8,6 @@ import com.homecooking.ykecomo.ui.activity.ProductsActivity;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by andres on 15/03/15.
- */
 public class GetMembersAvatarAddressFunc implements Func1<ApiResponse, Observable<Member>> {
 
     private ProductsActivity mActivity;

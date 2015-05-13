@@ -4,9 +4,6 @@ import android.location.Address;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 26/2/15.
- */
 public class AddressToStringFunc implements Func1<Address, String> {
     @Override
     public String call(Address address) {

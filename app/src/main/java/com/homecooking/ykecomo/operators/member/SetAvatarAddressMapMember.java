@@ -9,9 +9,6 @@ import com.homecooking.ykecomo.rest.model.ApiResponse;
 
 import rx.functions.Func1;
 
-/**
- * Created by andres on 25/3/15.
- */
 public class SetAvatarAddressMapMember implements Func1<ApiResponse, Member> {
 
     @Override

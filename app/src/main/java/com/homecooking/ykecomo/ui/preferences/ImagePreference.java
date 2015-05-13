@@ -13,9 +13,6 @@ import com.homecooking.ykecomo.ui.activity.userProfile.UserProfileSettings;
 import com.squareup.picasso.Picasso;
 
 
-/**
- * Created by andres on 29/03/15.
- */
 public class ImagePreference extends Preference {
 
     ImageView mImage;

@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by andres on 21/02/15.
- */
+
 public class ArrayAdapter<T> extends TypeAdapter<List<T>> {
     private Class<T> adapterclass;
 
