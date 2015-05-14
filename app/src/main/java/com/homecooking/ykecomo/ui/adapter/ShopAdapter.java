@@ -53,7 +53,7 @@ public class ShopAdapter extends AbstractListAdapter<ProductCategory, ShopAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mTitle;
         private ImageView mImageView;
-        private       ProductCategory   mEntity;
+        private ProductCategory   mEntity;
 
         public ViewHolder(View v) {
             super(v);

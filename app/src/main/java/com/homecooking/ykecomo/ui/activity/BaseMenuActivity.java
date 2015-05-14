@@ -6,15 +6,17 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.AppEventsLogger;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -23,6 +25,7 @@ import com.facebook.SessionState;
 import com.facebook.SharedPreferencesTokenCachingStrategy;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.location.LocationRequest;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.actions.location.DisplayTextOnViewAction;
@@ -61,21 +64,20 @@ public class BaseMenuActivity extends AppCompatActivity implements
 
     protected static final int PROFILE_SETTING = 1;
 
-    protected static int USER_MODE = 0;
-    protected static int CHEF_MODE = 1;
-
     protected int mSelctedView = -1;
     protected int mSelectedMode = -1;
     protected Activity mActivity;
+
+    private int mScrollOffset = 4;
 
     protected Toolbar mToolbar;
     protected AccountHeader.Result headerResult = null;
     protected Drawer.Result drawerResult = null;
     protected RecyclerView mList;
     protected SwipeRefreshLayout mRefreshLayout;
-    protected ImageView mMenuIcon;
     protected CircleProgressBar mProgress;
     protected Button mAccessUser;
+    protected FloatingActionButton mFab;
 
     protected IDrawerItem[] mDrawerItems;
     protected IProfile mProfile;
@@ -102,9 +104,7 @@ public class BaseMenuActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         setupUserLocationObservable();
-        /**
-         * SAVED INSTANCE STATE
-         */
+
         if (savedInstanceState != null) {
             if(savedInstanceState.getInt(Constants.TYPE_USER, 0) == 2){
                 SharedPreferencesTokenCachingStrategy restoredCache = new SharedPreferencesTokenCachingStrategy(
@@ -203,10 +203,10 @@ public class BaseMenuActivity extends AppCompatActivity implements
                     startActivityForResult(i, Constants.LOGIN_REQUEST_CODE);
                     drawerResult.closeDrawer();
                 } else {
-                    if(mSelectedMode == USER_MODE){
+                    if (mSelectedMode == Constants.USER_ENVIRONMENT_MODE) {
                         Intent i = new Intent(BaseMenuActivity.this, ChefMenuPrincipalActivity.class);
                         startActivity(i);
-                    }else{
+                    } else {
                         Intent i = new Intent(BaseMenuActivity.this, MenuPrincipalActivity.class);
                         startActivity(i);
                     }
@@ -225,6 +225,27 @@ public class BaseMenuActivity extends AppCompatActivity implements
         mList.getItemAnimator().setChangeDuration(1000);
         mList.getItemAnimator().setMoveDuration(1000);
         mList.getItemAnimator().setRemoveDuration(1000);
+
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+
+        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
+            mFab.setVisibility(View.GONE);
+        }else{
+            mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    Log.e("Scroll", "dy " + dy);
+                    if (Math.abs(dy) > mScrollOffset) {
+                        if (dy > 0) {
+                            mFab.hide(true);
+                        } else {
+                            mFab.show(true);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
@@ -344,7 +365,7 @@ public class BaseMenuActivity extends AppCompatActivity implements
 
     protected void getAvatarLoginUser(){
         isUser = true;
-        if(mSelectedMode == USER_MODE) mAccessUser.setText(getResources().getString(R.string.cambiar_modo_chef_btn));
+        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE) mAccessUser.setText(getResources().getString(R.string.cambiar_modo_chef_btn));
         else mAccessUser.setText(getResources().getString(R.string.modo_user_btn));
         String imageURL = "";
         if(App.getMember().getAvatarFilename() != null) {
@@ -358,6 +379,12 @@ public class BaseMenuActivity extends AppCompatActivity implements
             mProfile.setEmail(App.getMember().getEmail());
             mProfile.setName(App.getMember().getFirstName());
             headerResult.updateProfileByIdentifier(mProfile);
+        }
+
+        if(mSelectedMode == Constants.CHEF_ENVIROMENT_MODE){
+            if(App.getProductsChef() != null){
+                getProducts();
+            }
         }
     }
 
@@ -410,6 +437,12 @@ public class BaseMenuActivity extends AppCompatActivity implements
         }else{
             mProgress.setVisibility(View.GONE);
         }
+    }
+
+    protected void getProducts(){
+        /**
+         * update in subclass
+         */
     }
 
     @Override

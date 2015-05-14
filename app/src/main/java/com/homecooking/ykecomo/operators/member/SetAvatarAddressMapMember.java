@@ -15,6 +15,7 @@ public class SetAvatarAddressMapMember implements Func1<ApiResponse, Member> {
     public Member call(ApiResponse apiResponse) {
         Member member = apiResponse.getMembers().get(0);
         Image image = apiResponse.getImages().get(0);
+        if(apiResponse.getProducts() != null) App.setProductsChef(apiResponse.getProducts());
         if(apiResponse.getAddresses().size() > 0){
             Address address = apiResponse.getAddresses().get(0);
             member.setAddress(address);

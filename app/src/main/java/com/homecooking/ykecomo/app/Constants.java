@@ -58,6 +58,10 @@ public class Constants {
     public static int EDIT_DESC_MEMBER_PROFILE = 3;
     public static int EDIT_ADDRESS_MEMBER_PROFILE = 4;
 
+    public static String USER_ENVIRONMENT = "user_environment";
+    public static int USER_ENVIRONMENT_MODE = 1;
+    public static int CHEF_ENVIROMENT_MODE = 2;
+
     public static String LOCALE_ES = "es";
 
     public static final String PENDING_ACTION_BUNDLE_KEY = "com.visitaelaljarafe.homecooking:PendingAction";

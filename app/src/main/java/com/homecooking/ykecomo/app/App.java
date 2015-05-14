@@ -16,32 +16,28 @@ import com.facebook.Session;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Member;
+import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.rest.RestClient;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
 public class App extends Application {
 
     private static RestClient restClient;
-
     private static SharedPreferences mPref;
-
     private static Member mMember;
-
     private static Session mCurrentFbSession;
-
     private static boolean mIsFbMember;
-
     private static String mFbLocation;
-
     private static Context mContext;
-
     private static Location mUserLastLocation;
     private static Location mUserUpdateLocation;
     private static String mUserAddress;
+    private static ArrayList<Product> mProductsChef;
 
     @Override
     public void onCreate() {
@@ -131,27 +127,6 @@ public class App extends Application {
         editor.commit();
     }
 
-    public static String getMemberAddressStr(Member member){
-        return member.getAddress().getAddress() + ". "
-                + member.getAddress().getCity() + ", "
-                + member.getAddress().getState() + " - "
-                + member.getAddress().getCountry();
-    }
-
-    public static String getUserpicFbURL(){
-        return Constants.GRAPH_FB_URL + App.getPref().getString(Constants.MEMBER_FB_ID, "") + Constants.PICTURE_FB_URL_PARAMS;
-    }
-
-    public static Map<String,?> getAllPrefs(){
-        Map<String,?> keys = mPref.getAll();
-
-        for(Map.Entry<String,?> entry : keys.entrySet()){
-            Log.e("map values", entry.getKey() + ": " +
-                    entry.getValue().toString());
-        }
-        return keys;
-    }
-
     public static void setMemberFromPrefs(){
         if(App.getPref().getBoolean(Constants.IS_MEMBER, true)){
             Member member = new Member();
@@ -183,6 +158,38 @@ public class App extends Application {
 
             App.setMember(member);
         }
+    }
+
+    public static void setPrefUserEnvironment(int environment){
+        SharedPreferences preferences = App.getPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(Constants.USER_ENVIRONMENT, environment);
+        editor.commit();
+    }
+
+    public static int getUserEnvironmentFromPref(){
+        return App.getPref().getInt(Constants.USER_ENVIRONMENT, 0);
+    }
+
+    public static String getMemberAddressStr(Member member){
+        return member.getAddress().getAddress() + ". "
+                + member.getAddress().getCity() + ", "
+                + member.getAddress().getState() + " - "
+                + member.getAddress().getCountry();
+    }
+
+    public static String getUserpicFbURL(){
+        return Constants.GRAPH_FB_URL + App.getPref().getString(Constants.MEMBER_FB_ID, "") + Constants.PICTURE_FB_URL_PARAMS;
+    }
+
+    public static Map<String,?> getAllPrefs(){
+        Map<String,?> keys = mPref.getAll();
+
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            Log.e("map values", entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
+        return keys;
     }
 
     public static String getCountryCode(String countryName, String language){
@@ -286,4 +293,8 @@ public class App extends Application {
     public static void setFbLocation(String mFbLocation) {
         App.mFbLocation = mFbLocation;
     }
+
+    public static ArrayList<Product> getProductsChef(){ return mProductsChef; }
+
+    public static void setProductsChef(ArrayList<Product> products) { App.mProductsChef = products; }
 }

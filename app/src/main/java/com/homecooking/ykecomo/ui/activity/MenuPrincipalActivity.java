@@ -74,8 +74,9 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         mDrawerItems[5] = new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).setEnabled(true).withIdentifier(6);
         mDrawerItems[6] = new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn).withIdentifier(7);
 
-        mSelectedMode = USER_MODE;
+        mSelectedMode = Constants.USER_ENVIRONMENT_MODE;
         setupUI(savedInstanceState);
+        App.setPrefUserEnvironment(Constants.USER_ENVIRONMENT_MODE);
     }
 
     @Override
