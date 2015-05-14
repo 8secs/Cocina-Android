@@ -227,23 +227,6 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         showProgress(false);
         mFragment.setMenuChefList(mMenuChefList);
         mFragment.onMemberComplete();
-        /*if(mChefAdapter == null){
-            mChefAdapter = new ChefAdapter(this);
-            mChefAdapter.setOnItemClickListener(new ChefAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(Member entity) {
-                    Intent i = new Intent(MenuPrincipalActivity.this, ChefActivity.class);
-                    Bundle extras = new Bundle();
-                    extras.putInt(Constants.ID_BUNDLE_KEY, entity.getId());
-                    i.putExtras(extras);
-                    startActivity(i);
-                }
-            });
-        }
-        mChefAdapter.setData(mMenuChefList);
-        mList.setAdapter(mChefAdapter);
-        mRefreshLayout.setRefreshing(false);
-        mChefAdapter.notifyDataSetChanged();*/
     }
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {

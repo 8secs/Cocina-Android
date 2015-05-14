@@ -1,6 +1,7 @@
 package com.homecooking.ykecomo.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +55,8 @@ public class MenuFragment extends Fragment implements
 
     private ProductAdapter mProductAdapter;
 
+    private static Context mContext;
+
     public void setMenuList(ArrayList<ProductCategory> mMenuList) {
         this.mMenuList = mMenuList;
     }
@@ -62,11 +65,13 @@ public class MenuFragment extends Fragment implements
         this.mMenuChefList = menuList;
     }
 
-    public static MenuFragment newInstance(int selectedMode) {
+    public static MenuFragment newInstance(int selectedMode, Context context) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
+
         args.putInt(SELECTED_MODE, selectedMode);
         fragment.setArguments(args);
+        mContext = context;
         return fragment;
     }
 
@@ -95,7 +100,6 @@ public class MenuFragment extends Fragment implements
         mList.getItemAnimator().setChangeDuration(1000);
         mList.getItemAnimator().setMoveDuration(1000);
         mList.getItemAnimator().setRemoveDuration(1000);
-
         mRefreshLayout.setOnRefreshListener(this);
 
         mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
@@ -122,7 +126,7 @@ public class MenuFragment extends Fragment implements
 
     public void onProductCategoriesComplete(){
         if(mAdapter == null){
-            mAdapter = new ShopAdapter(getActivity());
+            mAdapter = new ShopAdapter(mContext);
             mAdapter.setOnItemClickListener(new ShopAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(ProductCategory entity) {

@@ -6,11 +6,17 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.AppEventsLogger;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -40,6 +46,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
@@ -68,6 +75,10 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected Button mAccessUser;
 
     protected MenuFragment mFragment;
+
+    protected PagerSlidingTabStrip mTabs;
+    protected ViewPager mPager;
+    protected MenuPagerAdapter mPagerAdapter;
 
     protected IDrawerItem[] mDrawerItems;
     protected IProfile mProfile;
@@ -132,20 +143,30 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
         setContentView(R.layout.activity_menu_principal);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        /*mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);*/
 
-        mFragment = MenuFragment.newInstance(mSelectedMode);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
+        /*mFragment = MenuFragment.newInstance(mSelectedMode);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();*/
+
+        mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager());
+        mFragment = MenuFragment.newInstance(mSelectedMode, this);
+
+        mPagerAdapter.addFragment(mFragment);
+        mPagerAdapter.addFragment(MenuFragment.newInstance(mSelectedMode, this));
+
+        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+                .getDisplayMetrics());
+
+        mPager.setPageMargin(pageMargin);
+        mPager.setAdapter(mPagerAdapter);
+        mTabs.setViewPager(mPager);
 
         uiHelper = new UiLifecycleHelper(this, sessionStatusCallback);
         uiHelper.onCreate(savedInstanceState);
         mProgress = (CircleProgressBar) findViewById(R.id.progressBar);
-        /*mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.recycler_swipe);
-
-        setupList();
-        mRefreshLayout.setOnRefreshListener(this);*/
-
     }
 
     protected void createHeaderMenu(Bundle savedInstanceState){
@@ -176,9 +197,8 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
         drawerResult = new Drawer()
                 .withActivity(this)
-                .withToolbar(mToolbar)
                 .withAccountHeader(headerResult)
-                .withActionBarDrawerToggle(true)
+                .withActionBarDrawerToggle(false)
                 .withTranslucentStatusBar(true)
                 .withFooter(R.layout.footer_menu)
                 .addDrawerItems(mDrawerItems)
@@ -401,6 +421,42 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
         /**
          * update in subclass
          */
+    }
+
+    public class MenuPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+
+        List<Fragment> fragments;
+
+        private final String[] TITLES = { "Categories", "Chefs" };
+
+        private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+
+        public MenuPagerAdapter(FragmentManager fm){
+            super(fm);
+            this.fragments = new ArrayList<Fragment>();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
+        }
+
+        @Override
+        public int getPageIconResId(int position){ return ICONS[position]; }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        public void addFragment(Fragment fragment) {
+            this.fragments.add(fragment);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
     }
 
     @Override

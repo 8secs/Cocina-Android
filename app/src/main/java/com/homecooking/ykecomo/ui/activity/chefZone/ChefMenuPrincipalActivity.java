@@ -31,8 +31,6 @@ import rx.schedulers.Schedulers;
 
 public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
-    //private ProductAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,33 +146,7 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
     private void updateUI(){
         showProgress(false);
         mFragment.onProductsChefComplete();
-        /*if(mAdapter == null){
-            mAdapter = new ProductAdapter(this);
-            mAdapter.setOnItemClickListener(this);
-            mList.setAdapter(mAdapter);
-        }
-        mAdapter.setItems(App.getProductsChef());
-        mAdapter.setItemCount(App.getProductsChef().size());
-        mAdapter.notifyDataSetChanged();
-        mRefreshLayout.setRefreshing(false);
-        */
     }
-
-    /*@Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Product product = App.getProductsChef().get(position);
-
-        Intent i = new Intent(this, ProductDetailActivity.class);
-        i.putExtra(Constants.PRODUCTID_BUNDLE_KEY, product.getID());
-
-        if(product.getMember() != null){
-            i.putExtra(Constants.AVATAR_BUNDLE_KEY, product.getMember().getAvatarFilename());
-            String address = product.getMember().getAddress().getCity() + "-" + product.getMember().getAddress().getCountry();
-            i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
-        }
-        startActivity(i);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
