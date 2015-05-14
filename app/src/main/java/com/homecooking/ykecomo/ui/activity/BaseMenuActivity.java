@@ -6,17 +6,11 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.AppEventsLogger;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -25,7 +19,6 @@ import com.facebook.SessionState;
 import com.facebook.SharedPreferencesTokenCachingStrategy;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.location.LocationRequest;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.actions.location.DisplayTextOnViewAction;
@@ -39,7 +32,7 @@ import com.homecooking.ykecomo.operators.member.SetAvatarAddressMapMember;
 import com.homecooking.ykecomo.ui.activity.chefZone.ChefMenuPrincipalActivity;
 import com.homecooking.ykecomo.ui.activity.userProfile.LoginActivity;
 import com.homecooking.ykecomo.ui.activity.userProfile.ViewUserProfileActivity;
-import com.homecooking.ykecomo.ui.view.DividerDecoration;
+import com.homecooking.ykecomo.ui.fragment.MenuFragment;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -59,8 +52,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class BaseMenuActivity extends AppCompatActivity implements
-        SwipeRefreshLayout.OnRefreshListener {
+public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.OnFragmentInteractionListener{
 
     protected static final int PROFILE_SETTING = 1;
 
@@ -68,16 +60,14 @@ public class BaseMenuActivity extends AppCompatActivity implements
     protected int mSelectedMode = -1;
     protected Activity mActivity;
 
-    private int mScrollOffset = 4;
-
     protected Toolbar mToolbar;
     protected AccountHeader.Result headerResult = null;
     protected Drawer.Result drawerResult = null;
-    protected RecyclerView mList;
-    protected SwipeRefreshLayout mRefreshLayout;
+
     protected CircleProgressBar mProgress;
     protected Button mAccessUser;
-    protected FloatingActionButton mFab;
+
+    protected MenuFragment mFragment;
 
     protected IDrawerItem[] mDrawerItems;
     protected IProfile mProfile;
@@ -145,20 +135,23 @@ public class BaseMenuActivity extends AppCompatActivity implements
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        mFragment = MenuFragment.newInstance(mSelectedMode);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
+
         uiHelper = new UiLifecycleHelper(this, sessionStatusCallback);
         uiHelper.onCreate(savedInstanceState);
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.recycler_swipe);
         mProgress = (CircleProgressBar) findViewById(R.id.progressBar);
+        /*mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.recycler_swipe);
 
         setupList();
-        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setOnRefreshListener(this);*/
 
     }
 
     protected void createHeaderMenu(Bundle savedInstanceState){
         headerResult = new AccountHeader()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
+                .withHeaderBackground(R.drawable.header_green)
                 .addProfiles(mProfile)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -216,44 +209,9 @@ public class BaseMenuActivity extends AppCompatActivity implements
 
     }
 
-    protected void setupList(){
-        mList = (RecyclerView) mRefreshLayout.findViewById(R.id.section_list);
-        mList.setLayoutManager(getLayoutManager());
-        mList.addItemDecoration(getItemDecoration());
+    @Override
+    public void onFragmentInteraction(int position) {
 
-        mList.getItemAnimator().setAddDuration(1000);
-        mList.getItemAnimator().setChangeDuration(1000);
-        mList.getItemAnimator().setMoveDuration(1000);
-        mList.getItemAnimator().setRemoveDuration(1000);
-
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-
-        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
-            mFab.setVisibility(View.GONE);
-        }else{
-            mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    Log.e("Scroll", "dy " + dy);
-                    if (Math.abs(dy) > mScrollOffset) {
-                        if (dy > 0) {
-                            mFab.hide(true);
-                        } else {
-                            mFab.show(true);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    protected RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-    }
-
-    protected RecyclerView.ItemDecoration getItemDecoration() {
-        return new DividerDecoration(this);
     }
 
     @Override
@@ -442,13 +400,6 @@ public class BaseMenuActivity extends AppCompatActivity implements
     protected void getProducts(){
         /**
          * update in subclass
-         */
-    }
-
-    @Override
-    public void onRefresh() {
-        /**
-         * TODO: VERIFICAR CON QUE LISTA TRABAJAMOS PARA ACTUALIZAR
          */
     }
 

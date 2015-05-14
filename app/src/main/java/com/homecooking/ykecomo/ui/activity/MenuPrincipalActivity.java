@@ -3,7 +3,6 @@ package com.homecooking.ykecomo.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +25,6 @@ import com.homecooking.ykecomo.operators.product.GetImageProductGategoryFunc;
 import com.homecooking.ykecomo.operators.product.GetProductCategoriesFunc;
 import com.homecooking.ykecomo.operators.product.SetImageProductCategoryFunc;
 import com.homecooking.ykecomo.rest.model.ApiResponse;
-import com.homecooking.ykecomo.ui.adapter.ChefAdapter;
-import com.homecooking.ykecomo.ui.adapter.ShopAdapter;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -49,7 +46,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected static int CHEF_USER_VIEW = 1;
 
     //PRODUCT CATEGORIES
-    private ShopAdapter mAdapter;
+    /*private ShopAdapter mAdapter;*/
     private ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
 
     public void setMenuList(ArrayList<ProductCategory> mMenuList) {
@@ -58,7 +55,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     public ArrayList<ProductCategory> getMenuList() { return mMenuList; }
 
     //CHEFS
-    private ChefAdapter mChefAdapter;
+    /*private ChefAdapter mChefAdapter;*/
     private ArrayList<Member> mMenuChefList = new ArrayList<Member>();
 
     @Override
@@ -222,29 +219,15 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     public void onProductCategoryComplete(){
         showProgress(false);
-        if(mAdapter == null){
-            mAdapter = new ShopAdapter(this);
-            mAdapter.setOnItemClickListener(new ShopAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(ProductCategory entity) {
-                    Log.e("onItemClick", entity.getTitle());
-
-                    Intent intent = new Intent(MenuPrincipalActivity.this, ProductsActivity.class);
-                    intent.putExtra(Constants.ID_BUNDLE_KEY, entity.getID());
-                    intent.putExtra(Constants.TITLE_BUNDLE_KEY, entity.getTitle());
-                    startActivity(intent);
-                }
-            });
-        }
-        mAdapter.setData(mMenuList);
-        mList.setAdapter(mAdapter);
-        mRefreshLayout.setRefreshing(false);
-        mAdapter.notifyDataSetChanged();
+        mFragment.setMenuList(mMenuList);
+        mFragment.onProductCategoriesComplete();
     }
 
     public void onMemberComplete(){
         showProgress(false);
-        if(mChefAdapter == null){
+        mFragment.setMenuChefList(mMenuChefList);
+        mFragment.onMemberComplete();
+        /*if(mChefAdapter == null){
             mChefAdapter = new ChefAdapter(this);
             mChefAdapter.setOnItemClickListener(new ChefAdapter.OnItemClickListener() {
                 @Override
@@ -260,7 +243,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         mChefAdapter.setData(mMenuChefList);
         mList.setAdapter(mChefAdapter);
         mRefreshLayout.setRefreshing(false);
-        mChefAdapter.notifyDataSetChanged();
+        mChefAdapter.notifyDataSetChanged();*/
     }
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {

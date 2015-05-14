@@ -1,6 +1,5 @@
 package com.homecooking.ykecomo.ui.activity.chefZone;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,8 +15,6 @@ import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.rest.model.ApiResponse;
 import com.homecooking.ykecomo.ui.activity.BaseMenuActivity;
-import com.homecooking.ykecomo.ui.activity.ProductDetailActivity;
-import com.homecooking.ykecomo.ui.adapter.ProductAdapter;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -32,9 +29,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class ChefMenuPrincipalActivity extends BaseMenuActivity implements AdapterView.OnItemClickListener {
+public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
-    private ProductAdapter mAdapter;
+    //private ProductAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +127,6 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity implements Adapt
                 .subscribe(new Subscriber<Product>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("onComplet", "products");
                         updateUI();
                     }
 
@@ -151,7 +147,8 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity implements Adapt
 
     private void updateUI(){
         showProgress(false);
-        if(mAdapter == null){
+        mFragment.onProductsChefComplete();
+        /*if(mAdapter == null){
             mAdapter = new ProductAdapter(this);
             mAdapter.setOnItemClickListener(this);
             mList.setAdapter(mAdapter);
@@ -160,10 +157,10 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity implements Adapt
         mAdapter.setItemCount(App.getProductsChef().size());
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.setRefreshing(false);
-
+        */
     }
 
-    @Override
+    /*@Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Product product = App.getProductsChef().get(position);
@@ -177,7 +174,7 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity implements Adapt
             i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
         }
         startActivity(i);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

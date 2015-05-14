@@ -15,54 +15,26 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="8dp"/>
 
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progressBar"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        app:mlpb_enable_circle_background="true"
+
+        app:mlpb_progress_stoke_width="5dp"
+        app:mlpb_progress_text_visibility="visible"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"/>
+
     <FrameLayout
         android:layout_below="@id/toolbar"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
-                android:id="@+id/progressBar"
-                app:mlpb_show_arrow="true"
-                app:mlpb_arrow_height="5dp"
-                app:mlpb_arrow_width="10dp"
-                app:mlpb_enable_circle_background="true"
-
-                app:mlpb_progress_stoke_width="5dp"
-                app:mlpb_progress_text_visibility="visible"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"/>
-
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/recycler_swipe"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/section_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="16dp"
-                android:src="@mipmap/ic_action_new"
-                fab:fab_colorNormal="@color/material_drawer_primary"
-                fab:fab_colorPressed="@color/material_drawer_primary_dark"
-                fab:fab_colorRipple="@color/material_drawer_primary_light" />
-
-        </RelativeLayout>
     </FrameLayout>
 
 </RelativeLayout>
