@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -69,7 +68,6 @@ public class BaseMenuActivity extends AppCompatActivity{
     protected int mSelectedMode = -1;
     protected Activity mActivity;
 
-    protected boolean fragmentIsSwitched;
     protected MenuFragment mSelectedFragment;
     protected ArrayList<MenuFragment> mFragments = new ArrayList<>();
 
@@ -194,7 +192,7 @@ public class BaseMenuActivity extends AppCompatActivity{
         setFragmentsViews();
 
         mPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager(), mFragments);
-        //mPager.setOffscreenPageLimit(mFragments.size());
+        mPager.setOffscreenPageLimit(mFragments.size());
         if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE) mPagerAdapter.setIcons(ICONS);
         else mPagerAdapter.setIcons(ICONS_CHEF);
 
@@ -469,7 +467,6 @@ public class BaseMenuActivity extends AppCompatActivity{
         public void onPageSelected(int position) {
             mSelectedFragment = mFragments.get(position);
             if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
-                Log.e("onPageSelected", Integer.toString(position));
                 switch (position){
                     case 0:
                         if(mMenuList.size() == 0){
@@ -508,10 +505,6 @@ public class BaseMenuActivity extends AppCompatActivity{
         private String[] titles;
         private int[] icons;
 
-        private final String[] TITLES = { "Categories", "Chefs", "Favorites" };
-
-        private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color};
-
         public MenuPagerAdapter(FragmentManager fm, List<MenuFragment> fragments){
             super(fm);
             this.fragments = fragments;
@@ -534,44 +527,10 @@ public class BaseMenuActivity extends AppCompatActivity{
             this.fragments.add(fragment);
         }
 
-        /*@Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (position >= getCount()) {
-                FragmentManager manager = ((Fragment) object).getFragmentManager();
-                FragmentTransaction trans = manager.beginTransaction();
-                trans.remove((Fragment) object);
-                trans.commit();
-            }
-        }*/
-
         @Override
         public MenuFragment getItem(int position) {
 
             return this.fragments.get(position);
-            /*if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
-                switch (position){
-                    case 0:
-                        mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
-                        this.fragments.add(mProductCategoriesFragment);
-                        mSelectedFragment = mProductCategoriesFragment;
-                        break;
-                    case 1:
-                        mChefsFragement = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
-                        this.fragments.add(mChefsFragement);
-                        mSelectedFragment = mChefsFragement;
-                        break;
-                    case 2:
-                        mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
-                        this.fragments.add(mFavoriteFragment);
-                        mSelectedFragment = mFavoriteFragment;
-                        break;
-                }
-            }else{
-                mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
-                this.fragments.add(mProductCategoriesFragment);
-                mSelectedFragment = mProductsChefFragment;
-            }
-            return mSelectedFragment;*/
         }
 
         public void setIcons(int[] icons) {

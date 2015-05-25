@@ -61,8 +61,6 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
         if (savedInstanceState == null) {
             drawerResult.setSelectionByIdentifier(PROFILE_SETTING, false);
             headerResult.setActiveProfile(mProfile);
-        }else{
-            fragmentIsSwitched = savedInstanceState.getBoolean("fragmentIsSwitched");
         }
     }
 

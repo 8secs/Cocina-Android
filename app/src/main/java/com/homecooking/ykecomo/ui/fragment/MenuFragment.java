@@ -189,7 +189,7 @@ public class MenuFragment extends Fragment implements
     }
 
     public void onProductsChefComplete(){
-        if(mList == null){
+        if(mList != null){
             mProductAdapter = new ProductAdapter(getActivity());
             mProductAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
