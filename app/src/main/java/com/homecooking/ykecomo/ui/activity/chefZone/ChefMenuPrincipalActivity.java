@@ -61,6 +61,8 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
         if (savedInstanceState == null) {
             drawerResult.setSelectionByIdentifier(PROFILE_SETTING, false);
             headerResult.setActiveProfile(mProfile);
+        }else{
+            fragmentIsSwitched = savedInstanceState.getBoolean("fragmentIsSwitched");
         }
     }
 
@@ -73,11 +75,11 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
                 /*switch (selected.toLowerCase()){
                     case "home" :
                         showProgress(true);
-                        createProductCategories();
+                        getProductCategories();
                         break;
                     case "chefs" :
                         showProgress(true);
-                        createChefs();
+                        getPublicChefs();
                         break;
                     case "help" :
                         Intent intent = new Intent(MenuPrincipalActivity.this, InitHelpActivity.class);
@@ -145,7 +147,10 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
     private void updateUI(){
         showProgress(false);
-        mFragment.onProductsChefComplete();
+        if(mSelectedFragment != null){
+            mSelectedFragment.setMenuProductList(App.getProductsChef());
+            mSelectedFragment.onProductsChefComplete();
+        }
     }
 
     @Override

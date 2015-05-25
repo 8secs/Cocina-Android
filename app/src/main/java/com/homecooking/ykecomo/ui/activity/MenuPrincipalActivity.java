@@ -1,6 +1,5 @@
 package com.homecooking.ykecomo.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
-import com.homecooking.ykecomo.model.ProductCategory;
+import com.homecooking.ykecomo.model.WishList;
 import com.homecooking.ykecomo.operators.ErrorHandler;
 import com.homecooking.ykecomo.operators.member.GetAvatarMemberAction;
 import com.homecooking.ykecomo.operators.member.GetAvatarMemberOnNext;
@@ -44,19 +43,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     protected static int PRODUCT_CATEGORIES_VIEW = 0;
     protected static int CHEF_USER_VIEW = 1;
-
-    //PRODUCT CATEGORIES
-    /*private ShopAdapter mAdapter;*/
-    private ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
-
-    public void setMenuList(ArrayList<ProductCategory> mMenuList) {
-        this.mMenuList = mMenuList;
-    }
-    public ArrayList<ProductCategory> getMenuList() { return mMenuList; }
-
-    //CHEFS
-    /*private ChefAdapter mChefAdapter;*/
-    private ArrayList<Member> mMenuChefList = new ArrayList<Member>();
+    protected static int FAVORITE_VIEW = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +72,15 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         createHeaderMenu(savedInstanceState);
         setupDrawer(savedInstanceState, onDrawerItemClickListener, mDrawerItems);
 
+
         if (savedInstanceState == null) {
             drawerResult.setSelectionByIdentifier(PROFILE_SETTING, false);
             headerResult.setActiveProfile(mProfile);
         }
     }
 
-    private void createProductCategories(){
+    @Override
+    protected void getProductCategories(){
         mSelctedView = PRODUCT_CATEGORIES_VIEW;
         if(mMenuList.size() > 0) mMenuList.removeAll(mMenuList);
         App.getRestClient()
@@ -107,7 +96,8 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
                 .subscribe(new GetProductCategoryOnNext(), new ErrorHandler(), new GetProductCategoryAction(this));
     }
 
-    private void createChefs(){
+    @Override
+    protected void getPublicChefs(){
         mSelctedView = CHEF_USER_VIEW;
         if(mMenuChefList.size() > 0) mMenuChefList.removeAll(mMenuChefList);
         /**
@@ -190,6 +180,32 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     }
 
+    @Override
+    protected void getFavorites(){
+        mSelctedView = FAVORITE_VIEW;
+        if(mMenuWishList.size() > 0) mMenuWishList.removeAll(mMenuWishList);
+        App.getRestClient()
+                .getPageService()
+                .getWishListUser(App.getMember().getId())
+                .flatMap(new Func1<ApiResponse, Observable<WishList>>() {
+                    @Override
+                    public Observable<WishList> call(ApiResponse apiResponse) {
+                        ArrayList<WishList> wishLists = apiResponse.getWishLists();
+                        return Observable.from(wishLists);
+                    }
+                })
+                .flatMap(new Func1<WishList, Observable<ApiResponse>>() {
+                    @Override
+                    public Observable<ApiResponse> call(WishList wishList) {
+                        Observable<ApiResponse> observable = App.getRestClient()
+                                .getPageService()
+                                .getWishListItems(wishList.getId());
+                        return observable;
+                    }
+                })
+                .subscribe();
+    }
+
     private Member setAddressToChef(Address address){
         for(Member member : mMenuChefList){
             if(member.getDefaultShippingAddress() != null){
@@ -219,14 +235,18 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     public void onProductCategoryComplete(){
         showProgress(false);
-        mFragment.setMenuList(mMenuList);
-        mFragment.onProductCategoriesComplete();
+        if(mSelectedFragment != null){
+            mSelectedFragment.setMenuList(mMenuList);
+            mSelectedFragment.onProductCategoriesComplete();
+        }
     }
 
     public void onMemberComplete(){
         showProgress(false);
-        mFragment.setMenuChefList(mMenuChefList);
-        mFragment.onMemberComplete();
+        if(mSelectedFragment != null){
+            mSelectedFragment.setMenuChefList(mMenuChefList);
+            mSelectedFragment.onMemberComplete();
+        }
     }
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
@@ -234,14 +254,14 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem drawerItem) {
             if (drawerItem instanceof Nameable) {
                 String selected = MenuPrincipalActivity.this.getString(((Nameable) drawerItem).getNameRes());
-                switch (selected.toLowerCase()){
+                /*switch (selected.toLowerCase()){
                     case "home" :
                         showProgress(true);
-                        createProductCategories();
+                        getProductCategories();
                         break;
                     case "chefs" :
                         showProgress(true);
-                        createChefs();
+                        getPublicChefs();
                         break;
                     case "help" :
                         Intent intent = new Intent(MenuPrincipalActivity.this, InitHelpActivity.class);
@@ -250,7 +270,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
                         intent.putExtras(extras);
                         startActivity(intent);
                         break;
-                }
+                }*/
             }
 
         }
@@ -260,7 +280,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected void onStart(){
         super.onStart();
         if(mSelctedView == -1){
-            createProductCategories();
+            getProductCategories();
         }
     }
 

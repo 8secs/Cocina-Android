@@ -6,13 +6,13 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +32,8 @@ import com.homecooking.ykecomo.actions.location.SetLocationAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.model.Member;
+import com.homecooking.ykecomo.model.ProductCategory;
+import com.homecooking.ykecomo.model.WishList;
 import com.homecooking.ykecomo.operators.ErrorHandler;
 import com.homecooking.ykecomo.operators.location.AddressToStringFunc;
 import com.homecooking.ykecomo.operators.member.SetAvatarAddressMapMember;
@@ -59,7 +61,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.OnFragmentInteractionListener{
+public class BaseMenuActivity extends AppCompatActivity{
 
     protected static final int PROFILE_SETTING = 1;
 
@@ -67,14 +69,28 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected int mSelectedMode = -1;
     protected Activity mActivity;
 
-    protected Toolbar mToolbar;
+    protected boolean fragmentIsSwitched;
+    protected MenuFragment mSelectedFragment;
+    protected ArrayList<MenuFragment> mFragments = new ArrayList<>();
+
+    //USER ENVIRONMENT
+    private final String[] TITLES = { "Categories", "Chefs"/*, "Favorites"*/ };
+    private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color};
+    protected MenuFragment mProductCategoriesFragment;
+    protected MenuFragment mChefsFragement;
+    protected MenuFragment mFavoriteFragment;
+
+    //CHEF ENVIROMENT
+    private final String[] TITLES_CHEF = { "Products"};
+    private final int[] ICONS_CHEF = {R.mipmap.ic_launcher};
+    protected MenuFragment mProductsChefFragment;
+
+    //UI
     protected AccountHeader.Result headerResult = null;
     protected Drawer.Result drawerResult = null;
 
     protected CircleProgressBar mProgress;
     protected Button mAccessUser;
-
-    protected MenuFragment mFragment;
 
     protected PagerSlidingTabStrip mTabs;
     protected ViewPager mPager;
@@ -88,6 +104,16 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected UiLifecycleHelper uiHelper;
     protected Session.StatusCallback sessionStatusCallback;
     protected static final String TOKEN_CACHE_NAME_KEY = "TokenCacheName";
+
+    //LISTS DATA
+    protected ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
+    protected ArrayList<Member> mMenuChefList = new ArrayList<Member>();
+    protected ArrayList<WishList> mMenuWishList = new ArrayList<>();
+
+    public void setMenuList(ArrayList<ProductCategory> mMenuList) {
+        this.mMenuList = mMenuList;
+    }
+    public ArrayList<ProductCategory> getMenuList() { return mMenuList; }
 
     /**
      * * USER LOCATION
@@ -120,11 +146,30 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
             }else if( savedInstanceState.getInt(Constants.TYPE_USER, 0) == 1){
                 getLoginUser();
             }
+
         }else{
             if(App.getMember() != null) {
                 getLoginUser();
             }
         }
+    }
+
+    protected void setFragmentsViews(){
+
+        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
+
+            mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mChefsFragement = MenuFragment.newInstance(mSelectedMode, this);
+            //mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, this);
+
+            mFragments.add(mProductCategoriesFragment);
+            mFragments.add(mChefsFragement);
+            //mFragments.add(mFavoriteFragment);
+        }else{
+            mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mFragments.add(mProductsChefFragment);
+        }
+        mSelectedFragment = (MenuFragment) mFragments.get(0);
     }
 
     protected void setupUI(@Nullable Bundle savedInstanceState){
@@ -143,19 +188,15 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
         setContentView(R.layout.activity_menu_principal);
 
-        /*mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);*/
-
-        /*mFragment = MenuFragment.newInstance(mSelectedMode);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();*/
-
         mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager());
-        mFragment = MenuFragment.newInstance(mSelectedMode, this);
 
-        mPagerAdapter.addFragment(mFragment);
-        mPagerAdapter.addFragment(MenuFragment.newInstance(mSelectedMode, this));
+        setFragmentsViews();
+
+        mPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager(), mFragments);
+        //mPager.setOffscreenPageLimit(mFragments.size());
+        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE) mPagerAdapter.setIcons(ICONS);
+        else mPagerAdapter.setIcons(ICONS_CHEF);
 
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
@@ -163,6 +204,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
         mPager.setPageMargin(pageMargin);
         mPager.setAdapter(mPagerAdapter);
         mTabs.setViewPager(mPager);
+        mTabs.setOnPageChangeListener(pageListener);
 
         uiHelper = new UiLifecycleHelper(this, sessionStatusCallback);
         uiHelper.onCreate(savedInstanceState);
@@ -204,6 +246,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
                 .addDrawerItems(mDrawerItems)
                 .withOnDrawerItemClickListener(itemClickListener)
                 .withSavedInstance(savedInstanceState)
+                .withDrawerGravity(Gravity.END)
                 .build();
 
         mAccessUser = (Button) findViewById(R.id.access_btn);
@@ -226,11 +269,6 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
                 }
             }
         });
-
-    }
-
-    @Override
-    public void onFragmentInteraction(int position) {
 
     }
 
@@ -417,46 +455,129 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
         }
     }
 
-    protected void getProducts(){
-        /**
-         * update in subclass
-         */
-    }
+    protected void getProducts(){ }
 
-    public class MenuPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+    protected void getProductCategories(){ }
 
-        List<Fragment> fragments;
+    protected void getPublicChefs(){ }
 
-        private final String[] TITLES = { "Categories", "Chefs" };
+    protected void getFavorites(){ }
 
-        private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+    protected ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
 
-        public MenuPagerAdapter(FragmentManager fm){
+        @Override
+        public void onPageSelected(int position) {
+            mSelectedFragment = mFragments.get(position);
+            if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
+                Log.e("onPageSelected", Integer.toString(position));
+                switch (position){
+                    case 0:
+                        if(mMenuList.size() == 0){
+                            showProgress(true);
+                            getProductCategories();
+                        }
+                        break;
+                    case 1:
+                        if(mMenuChefList.size() == 0) {
+                            showProgress(true);
+                            getPublicChefs();
+                        }
+                        break;
+                    case 2:
+                        if(mMenuWishList.size() == 0){
+                            showProgress(true);
+                            getFavorites();
+                        }
+                        break;
+                }
+            }else{
+                if(App.getProductsChef().size() == 0){
+                    showProgress(true);
+                    getProducts();
+                }
+            }
+        }
+        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        @Override public void onPageScrollStateChanged(int state) { }
+    };
+
+    public class MenuPagerAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+
+        List<MenuFragment> fragments;
+
+        private String[] titles;
+        private int[] icons;
+
+        private final String[] TITLES = { "Categories", "Chefs", "Favorites" };
+
+        private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color};
+
+        public MenuPagerAdapter(FragmentManager fm, List<MenuFragment> fragments){
             super(fm);
-            this.fragments = new ArrayList<Fragment>();
+            this.fragments = fragments;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return TITLES[position];
+            return titles[position];
         }
 
         @Override
-        public int getPageIconResId(int position){ return ICONS[position]; }
+        public int getPageIconResId(int position){ return icons[position]; }
 
         @Override
         public int getCount() {
-            return fragments.size();
+            return this.fragments.size();
         }
 
-        public void addFragment(Fragment fragment) {
+        public void addFragment(MenuFragment fragment) {
             this.fragments.add(fragment);
         }
 
+        /*@Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            if (position >= getCount()) {
+                FragmentManager manager = ((Fragment) object).getFragmentManager();
+                FragmentTransaction trans = manager.beginTransaction();
+                trans.remove((Fragment) object);
+                trans.commit();
+            }
+        }*/
+
         @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
+        public MenuFragment getItem(int position) {
+
+            return this.fragments.get(position);
+            /*if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
+                switch (position){
+                    case 0:
+                        mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
+                        this.fragments.add(mProductCategoriesFragment);
+                        mSelectedFragment = mProductCategoriesFragment;
+                        break;
+                    case 1:
+                        mChefsFragement = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
+                        this.fragments.add(mChefsFragement);
+                        mSelectedFragment = mChefsFragement;
+                        break;
+                    case 2:
+                        mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
+                        this.fragments.add(mFavoriteFragment);
+                        mSelectedFragment = mFavoriteFragment;
+                        break;
+                }
+            }else{
+                mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, BaseMenuActivity.this);
+                this.fragments.add(mProductCategoriesFragment);
+                mSelectedFragment = mProductsChefFragment;
+            }
+            return mSelectedFragment;*/
         }
+
+        public void setIcons(int[] icons) {
+            this.icons = icons;
+        }
+
     }
 
     @Override

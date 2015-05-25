@@ -78,5 +78,11 @@ public interface ApiService {
 
     @POST("/api/Image")
     Observable<ApiResponse> createImage(@Body List<Hashtable<String, String>> params);
+
+    @GET("/api/WishList")
+    Observable<ApiResponse> getWishListUser(@Query("OwnerID") int OwnerID);
+
+    @GET("/api/WishListItem")
+    Observable<ApiResponse> getWishListItems(@Query("WishListID") int WishListID);
     
 }

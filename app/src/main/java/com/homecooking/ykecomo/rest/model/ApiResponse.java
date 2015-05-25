@@ -10,6 +10,8 @@ import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.Page;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.model.ProductCategory;
+import com.homecooking.ykecomo.model.WishList;
+import com.homecooking.ykecomo.model.WishListItem;
 
 import org.parceler.Parcel;
 
@@ -51,6 +53,12 @@ public class ApiResponse {
 
     @SerializedName("chefReviews")
     public ArrayList<ChefReview> chefReviews;
+
+    @SerializedName("wishLists")
+    public ArrayList<WishList> wishLists;
+
+    @SerializedName("wishListItems")
+    public ArrayList<WishListItem> wishListItems;
     
     protected Auth auth;
 
@@ -90,6 +98,10 @@ public class ApiResponse {
 
     public ArrayList<ChefReview> getChefReviews() { return chefReviews; }
 
+    public ArrayList<WishList> getWishLists() { return wishLists; }
+
+    public ArrayList<WishListItem> getWishListItems() { return wishListItems; }
+
     public Member getMember() { return member; }
 
     public String getMessage() { return message; }
@@ -107,4 +119,8 @@ public class ApiResponse {
     public void setGroups(ArrayList<Group> groups) { this.groups = groups; }
 
     public void setChefReviews(ArrayList<ChefReview> chefReviews){ this.chefReviews = chefReviews; }
+
+    public void setWishLists(ArrayList<WishList> wishLists) { this.wishLists = wishLists; }
+
+    public void setWishListItems(ArrayList<WishListItem> items) { this.wishListItems = items; }
 }

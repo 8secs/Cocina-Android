@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import android.widget.AdapterView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.homecooking.ykecomo.R;
-import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.Product;
@@ -35,17 +35,21 @@ import java.util.ArrayList;
 public class MenuFragment extends Fragment implements
         SwipeRefreshLayout.OnRefreshListener {
 
+    protected int mSelectedMode;
+
     private int mScrollOffset = 4;
 
     protected static String SELECTED_MODE = "SELECTED_MODE";
 
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
+
+    public RecyclerView getList() {
+        return mList;
+    }
 
     protected RecyclerView mList;
     protected SwipeRefreshLayout mRefreshLayout;
     protected FloatingActionButton mFab;
-
-    protected int mSelectedMode;
 
     private ShopAdapter mAdapter;
     private ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
@@ -54,16 +58,17 @@ public class MenuFragment extends Fragment implements
     private ArrayList<Member> mMenuChefList = new ArrayList<Member>();
 
     private ProductAdapter mProductAdapter;
+    private ArrayList<Product> mMenuProductList = new ArrayList<>();
 
     private static Context mContext;
 
-    public void setMenuList(ArrayList<ProductCategory> mMenuList) {
-        this.mMenuList = mMenuList;
-    }
+    private View mRootView;
 
+    public void setMenuList(ArrayList<ProductCategory> mMenuList) { this.mMenuList = mMenuList; }
     public void setMenuChefList(ArrayList<Member> menuList){
         this.mMenuChefList = menuList;
     }
+    public void setMenuProductList(ArrayList<Product> menuList) { this.mMenuProductList = menuList; }
 
     public static MenuFragment newInstance(int selectedMode, Context context) {
         MenuFragment fragment = new MenuFragment();
@@ -82,6 +87,7 @@ public class MenuFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
             mSelectedMode = getArguments().getInt(SELECTED_MODE);
         }
@@ -90,11 +96,12 @@ public class MenuFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.menu_fragment, container, false);
-        mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.recycler_swipe);
-        mList = (RecyclerView) mRefreshLayout.findViewById(R.id.section_list);
+        mRootView = inflater.inflate(R.layout.menu_fragment, container, false);
+        mRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.recycler_swipe);
+        mList = (RecyclerView) mRootView.findViewById(R.id.section_list);
         mList.setLayoutManager(getLayoutManager());
         mList.addItemDecoration(getItemDecoration());
+        mList.setHasFixedSize(true);
 
         mList.getItemAnimator().setAddDuration(1000);
         mList.getItemAnimator().setChangeDuration(1000);
@@ -102,10 +109,12 @@ public class MenuFragment extends Fragment implements
         mList.getItemAnimator().setRemoveDuration(1000);
         mRefreshLayout.setOnRefreshListener(this);
 
-        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        mFab = (FloatingActionButton) mRootView.findViewById(R.id.fab);
 
         if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
             mFab.setVisibility(View.GONE);
+            if(mMenuList != null && mMenuList.size() > 0) onProductCategoriesComplete();
+            if(mMenuChefList != null && mMenuChefList.size() > 0) onMemberComplete();
         }else{
             mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -120,12 +129,25 @@ public class MenuFragment extends Fragment implements
                     }
                 }
             });
+            if(mMenuProductList != null && mMenuProductList.size() > 0) onProductsChefComplete();
         }
-        return rootView;
+        return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.e("menuFragment", "onActivityCreated");
+
     }
 
     public void onProductCategoriesComplete(){
-        if(mAdapter == null){
+        if(mList != null){
             mAdapter = new ShopAdapter(mContext);
             mAdapter.setOnItemClickListener(new ShopAdapter.OnItemClickListener() {
                 @Override
@@ -137,15 +159,16 @@ public class MenuFragment extends Fragment implements
                     startActivity(intent);
                 }
             });
+
+            mAdapter.setData(mMenuList);
+            mList.setAdapter(mAdapter);
+            mRefreshLayout.setRefreshing(false);
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.setData(mMenuList);
-        mList.setAdapter(mAdapter);
-        mRefreshLayout.setRefreshing(false);
-        mAdapter.notifyDataSetChanged();
     }
 
     public void onMemberComplete(){
-        if(mChefAdapter == null){
+        if(mList != null){
             mChefAdapter = new ChefAdapter(getActivity());
             mChefAdapter.setOnItemClickListener(new ChefAdapter.OnItemClickListener() {
                 @Override
@@ -157,20 +180,21 @@ public class MenuFragment extends Fragment implements
                     startActivity(i);
                 }
             });
+
+            mChefAdapter.setData(mMenuChefList);
+            mList.setAdapter(mChefAdapter);
+            mRefreshLayout.setRefreshing(false);
+            mChefAdapter.notifyDataSetChanged();
         }
-        mChefAdapter.setData(mMenuChefList);
-        mList.setAdapter(mChefAdapter);
-        mRefreshLayout.setRefreshing(false);
-        mChefAdapter.notifyDataSetChanged();
     }
 
     public void onProductsChefComplete(){
-        if(mProductAdapter == null){
+        if(mList == null){
             mProductAdapter = new ProductAdapter(getActivity());
             mProductAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                    Product product = App.getProductsChef().get(position);
+                    Product product = mMenuProductList.get(position);
 
                     Intent i = new Intent(getActivity(), ProductDetailActivity.class);
                     i.putExtra(Constants.PRODUCTID_BUNDLE_KEY, product.getID());
@@ -184,11 +208,12 @@ public class MenuFragment extends Fragment implements
                 }
             });
             mList.setAdapter(mProductAdapter);
+
+            mProductAdapter.setItems(mMenuProductList);
+            mProductAdapter.setItemCount(mMenuProductList.size());
+            mRefreshLayout.setRefreshing(false);
+            mProductAdapter.notifyDataSetChanged();
         }
-        mProductAdapter.setItems(App.getProductsChef());
-        mProductAdapter.setItemCount(App.getProductsChef().size());
-        mProductAdapter.notifyDataSetChanged();
-        mRefreshLayout.setRefreshing(false);
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
@@ -198,6 +223,7 @@ public class MenuFragment extends Fragment implements
     protected RecyclerView.ItemDecoration getItemDecoration() {
         return new DividerDecoration(getActivity());
     }
+
 
     @Override
     public void onRefresh() {
@@ -215,18 +241,24 @@ public class MenuFragment extends Fragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
+        /*try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        //mListener = null;
     }
 
     public interface OnFragmentInteractionListener {
