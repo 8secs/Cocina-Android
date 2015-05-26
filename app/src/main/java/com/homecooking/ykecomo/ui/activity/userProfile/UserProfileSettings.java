@@ -29,8 +29,6 @@ import rx.functions.Func1;
 
 public class UserProfileSettings extends BaseUserProfileActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

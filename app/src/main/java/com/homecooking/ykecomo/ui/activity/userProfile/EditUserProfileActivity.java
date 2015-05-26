@@ -25,6 +25,7 @@ import com.homecooking.ykecomo.operators.image.FillMemberFunc;
 import com.homecooking.ykecomo.operators.image.GetImageFromIntegerFunc;
 import com.homecooking.ykecomo.operators.image.SetImageFunc;
 import com.homecooking.ykecomo.operators.image.UpdateAvatarMemberFunc;
+import com.homecooking.ykecomo.ui.activity.image.NewPhoto;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 
@@ -112,7 +113,7 @@ public class EditUserProfileActivity extends BaseUserProfileActivity {
 
 
 
-    /*private void selectImage(){
+    public void selectImage(){
         final CharSequence[] items = {getResources().getString(R.string.HACER_PHOTO),
                 getResources().getString(R.string.SELECCIONAR_DESDE_LIBRERIA),
                 getResources().getString(R.string.cancelled) };
@@ -125,6 +126,7 @@ public class EditUserProfileActivity extends BaseUserProfileActivity {
                 if (items[item].equals(getResources().getString(R.string.HACER_PHOTO))) {
 
                     Intent i = new Intent(EditUserProfileActivity.this, NewPhoto.class);
+                    i.putExtra(Constants.IS_FRONT_CAMERA, true);
                     startActivityForResult(i, REQUEST_CAMERA);
                 } else if (items[item].equals(getResources().getString(R.string.SELECCIONAR_DESDE_LIBRERIA))) {
                     Crop.pickImage(EditUserProfileActivity.this);
@@ -134,7 +136,7 @@ public class EditUserProfileActivity extends BaseUserProfileActivity {
             }
         });
         builder.show();
-    }*/
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

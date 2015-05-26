@@ -25,9 +25,8 @@
         android:name=".app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/CustomTheme"
-        android:label="@string/app_name">
-
+        android:label="@string/app_name"
+        android:theme="@style/CustomTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -38,28 +37,29 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/CustomTheme">
+            android:theme="@style/CustomTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.InitHelpActivity"
-            android:label="@string/title_activity_init_help"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme">
+            android:label="@string/title_activity_init_help"
+            android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
             android:name=".ui.activity.MenuPrincipalActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".ui.activity.ProductsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_products"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar"
-            android:parentActivityName=".ui.activity.MenuPrincipalActivity">
+            android:parentActivityName=".ui.activity.MenuPrincipalActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MenuPrincipalActivity" />
@@ -68,14 +68,14 @@
             android:name=".ui.activity.ProductDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_product_detail"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar">
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
         </activity>
         <activity
             android:name=".ui.activity.userProfile.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar"
-            android:parentActivityName=".ui.activity.MenuPrincipalActivity">
+            android:parentActivityName=".ui.activity.MenuPrincipalActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MenuPrincipalActivity" />
@@ -84,8 +84,8 @@
             android:name=".ui.activity.userProfile.SignupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_signup"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar"
-            android:parentActivityName=".ui.activity.userProfile.LoginActivity">
+            android:parentActivityName=".ui.activity.userProfile.LoginActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.userProfile.LoginActivity" />
@@ -97,14 +97,15 @@
         <activity
             android:name=".ui.activity.userProfile.ViewUserProfileActivity"
             android:label="@string/title_activity_view_user_profile"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar.TranslucentStatus">
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar.TranslucentStatus" >
         </activity>
         <activity
-            android:name=".ui.activity.NewPhoto"
+            android:name=".ui.activity.image.NewPhoto"
             android:label="@string/title_activity_new_photo"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar">
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
         </activity>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" />
         <activity
             android:name=".ui.activity.userProfile.BaseUserProfileActivity"
             android:label="@string/title_activity_base_user_profile" >
@@ -120,6 +121,7 @@
             android:theme="@style/ActionPreference" >
             <intent-filter>
                 <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EditFullnameMember" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -129,6 +131,7 @@
             android:theme="@style/ActionPreference" >
             <intent-filter>
                 <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EmailMember" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -138,6 +141,7 @@
             android:theme="@style/ActionPreference" >
             <intent-filter>
                 <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.DescriptionMember" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -146,14 +150,14 @@
             android:theme="@style/ActionPreference" >
             <intent-filter>
                 <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.AddressMember" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.ChefActivity"
             android:label="@string/title_activity_chefs"
-            android:theme="@style/MaterialDrawerTheme.Light.ActionBar.TranslucentStatus">
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar.TranslucentStatus" >
         </activity>
 
         <!-- ************************* ENTORNO CHEF **************************************** -->
@@ -161,15 +165,37 @@
         <activity
             android:name=".ui.activity.chefZone.ChefMenuPrincipalActivity"
             android:label="@string/title_activity_chef_menu_principal"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" >
         </activity>
-
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditProductCategoryChefActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditTitleProductChefActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditPortionProductChef"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditPriceProductChef"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditDescriptionProductChef"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditImageProductChef"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+        </activity>
         <!-- ******************************************************************************** -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBQ_SS4U8PbfZzfkPNdYeUiZnLjzlpSzI8" />
-
     </application>
 
 </manifest>

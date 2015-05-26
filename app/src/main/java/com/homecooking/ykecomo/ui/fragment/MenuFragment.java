@@ -24,6 +24,7 @@ import com.homecooking.ykecomo.model.ProductCategory;
 import com.homecooking.ykecomo.ui.activity.ChefActivity;
 import com.homecooking.ykecomo.ui.activity.ProductDetailActivity;
 import com.homecooking.ykecomo.ui.activity.ProductsActivity;
+import com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditProductCategoryChefActivity;
 import com.homecooking.ykecomo.ui.adapter.ChefAdapter;
 import com.homecooking.ykecomo.ui.adapter.ProductAdapter;
 import com.homecooking.ykecomo.ui.adapter.ShopAdapter;
@@ -110,6 +111,13 @@ public class MenuFragment extends Fragment implements
         mRefreshLayout.setOnRefreshListener(this);
 
         mFab = (FloatingActionButton) mRootView.findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, EditProductCategoryChefActivity.class);
+                startActivity(i);
+            }
+        });
 
         if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
             mFab.setVisibility(View.GONE);

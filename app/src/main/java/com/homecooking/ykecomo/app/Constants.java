@@ -102,6 +102,8 @@ public class Constants {
 
     public static final String NON_COUNTRY_NAME = "non_country_name";
 
+    public static final String IS_FRONT_CAMERA = "is_front_camera";
+
     /**
      * PARAMS MEMBER
      */
@@ -133,4 +135,13 @@ public class Constants {
     public static final String FILENAME = "Filename";
     public static final String NAME = "Name";
     public static final String PARENT = "Parent";
+
+    /**
+     * PARAMS PRODUCT
+     */
+
+    public static final String PRICE = "CostPrice";
+    public static final String PORTIONS = "Portions";
+    public static final String MINI_DESCRIPTION = "MiniDescription";
+
 }

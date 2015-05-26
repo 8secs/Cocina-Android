@@ -25,7 +25,8 @@
         android:gravity="top|left"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical">
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

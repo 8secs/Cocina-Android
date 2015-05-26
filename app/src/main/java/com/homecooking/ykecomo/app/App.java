@@ -297,4 +297,5 @@ public class App extends Application {
     public static ArrayList<Product> getProductsChef(){ return mProductsChef; }
 
     public static void setProductsChef(ArrayList<Product> products) { App.mProductsChef = products; }
+
 }

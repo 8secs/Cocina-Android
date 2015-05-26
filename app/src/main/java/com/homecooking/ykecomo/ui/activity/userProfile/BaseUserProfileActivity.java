@@ -27,7 +27,7 @@ import com.homecooking.ykecomo.operators.image.UpdateAvatarMemberFunc;
 import com.homecooking.ykecomo.operators.member.GetMemberFunc;
 import com.homecooking.ykecomo.operators.member.SetAvatarAddressToMemberFunc;
 import com.homecooking.ykecomo.rest.model.ApiResponse;
-import com.homecooking.ykecomo.ui.activity.NewPhoto;
+import com.homecooking.ykecomo.ui.activity.image.NewPhoto;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 
@@ -195,6 +195,7 @@ public class BaseUserProfileActivity extends AppCompatActivity {
                 if (items[item].equals(getResources().getString(R.string.HACER_PHOTO))) {
 
                     Intent i = new Intent(BaseUserProfileActivity.this, NewPhoto.class);
+                    i.putExtra(Constants.IS_FRONT_CAMERA, true);
                     startActivityForResult(i, REQUEST_CAMERA);
                 } else if (items[item].equals(getResources().getString(R.string.SELECCIONAR_DESDE_LIBRERIA))) {
                     Crop.pickImage(BaseUserProfileActivity.this);

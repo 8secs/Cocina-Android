@@ -1,4 +1,4 @@
-package com.homecooking.ykecomo.ui.activity;
+package com.homecooking.ykecomo.ui.activity.image;
 
 
 import android.app.Activity;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.homecooking.ykecomo.R;
+import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.ui.utils.PhotoHandler;
 
 import java.io.File;
@@ -38,12 +39,14 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
     public String fotoString;
     public String mFileName;
     boolean isFirst = true;
+    boolean isFrontCamera;
+
 
     private static final String CAMERA_PARAM_ORIENTATION = "orientation";
     private static final String CAMERA_PARAM_LANDSCAPE = "landscape";
     private static final String CAMERA_PARAM_PORTRAIT = "portrait";
 
-    int frontCamera;
+    int cameraID;
     public int resultDeg;
 
     private PhotoHandler mpic;
@@ -55,6 +58,9 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle extras = getIntent().getExtras();
+        isFrontCamera = extras.getBoolean(Constants.IS_FRONT_CAMERA);
+
         setContentView(R.layout.activity_new_photo);
 
         iview = (ImageView) findViewById(R.id.imageView1);
@@ -64,7 +70,8 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
         sHolder.addCallback(this);
         sHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        frontCamera = getFrontCameraId();
+        if(isFrontCamera) cameraID = getFrontCameraId();
+        else cameraID = getBackCameraId();
 
         mpic = new PhotoHandler(NewPhoto.this, iview, this);
 
@@ -77,15 +84,6 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
             }
         });
 
-        /*iview.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                File pictureFileDir = getDir();
-                mFileName = pictureFileDir.getPath() + File.separator + fotoString;
-            }
-        });*/
 
         publica = (ImageButton) findViewById(R.id.publicar_foto_btn);
         publica.setVisibility(View.GONE);
@@ -110,9 +108,8 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
         mcam.release();
         mcam = null;
         try {
-
-            mcam= Camera.open(frontCamera);
-            setCameraDisplayOrientation(this, frontCamera, mcam);
+            mcam= Camera.open(cameraID);
+            setCameraDisplayOrientation(this, cameraID, mcam);
             mcam.setPreviewDisplay(sHolder);
             mcam.startPreview();
         } catch (IOException e) {
@@ -134,6 +131,21 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
         for(int i = 0;i < numberOfCameras;i++){
             Camera.getCameraInfo(i, ci);
             if(ci.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+                camId = i;
+            }
+        }
+
+        return camId;
+    }
+
+    private int getBackCameraId(){
+        int camId = -1;
+        int numberOfCameras = Camera.getNumberOfCameras();
+        Camera.CameraInfo ci = new Camera.CameraInfo();
+
+        for(int i = 0;i < numberOfCameras;i++){
+            Camera.getCameraInfo(i, ci);
+            if(ci.facing == Camera.CameraInfo.CAMERA_FACING_BACK){
                 camId = i;
             }
         }
@@ -197,7 +209,7 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
             mcam.startPreview();
         }else{
             try {
-                mcam= Camera.open(frontCamera);
+                mcam= Camera.open(cameraID);
                 if(mcam != null){
                     mcam.setPreviewDisplay(sHolder);
                     mcam.startPreview();
@@ -214,7 +226,7 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
     public void surfaceCreated(SurfaceHolder holder) {
         if(mcam == null){
             try {
-                mcam= Camera.open(frontCamera);
+                mcam= Camera.open(cameraID);
                 if(mcam != null){
                     mcam.setPreviewDisplay(sHolder);
                     mcam.startPreview();
@@ -222,7 +234,7 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
                     Toast.makeText(getApplicationContext(), "ERROR: No hay cámara disponible", Toast.LENGTH_SHORT).show();
                 }
                 if(isFirst == true){
-                    setCameraDisplayOrientation(this, frontCamera, mcam);
+                    setCameraDisplayOrientation(this, cameraID, mcam);
                     isFirst = false;
                 }
             } catch (IOException e) {
@@ -251,6 +263,9 @@ public class NewPhoto extends ActionBarActivity implements SurfaceHolder.Callbac
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            return true;
+        }else if(id == android.R.id.home ){
+            finish();
             return true;
         }
 
