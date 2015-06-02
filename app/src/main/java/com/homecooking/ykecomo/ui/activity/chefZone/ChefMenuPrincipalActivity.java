@@ -3,7 +3,6 @@ package com.homecooking.ykecomo.ui.activity.chefZone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -154,7 +153,6 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
     @Override
     public void onListItemInteration(int position) {
-        Log.e("onListItemInteration", "position: " + position);
         Product product = App.getProductsChef().get(position);
 
         Intent i = new Intent(this, EditProductChefActivity.class);
@@ -165,12 +163,12 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
             String address = product.getMember().getAddress().getCity() + "-" + product.getMember().getAddress().getCountry();
             i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
         }
-        startActivity(i);
+        //startActivity(i);
+        startActivityForResult(i, Constants.EDIT_PRODUCT_REQUEST_CODE);
     }
 
     @Override
     public void onButtonPressed() {
-        //Log.e("onButtonPressed", "click");
         Intent i = new Intent(this, EditProductCategoryChefActivity.class);
         startActivityForResult(i, Constants.EDIT_PRODUCT_REQUEST_CODE);
         //startActivity(i);

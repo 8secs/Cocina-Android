@@ -197,6 +197,8 @@ public class EditProductChefActivity extends AppCompatActivity {
         }
 
         if(mCategories != null && mProduct != null) setupCatetoryCard();
+
+        App.updateProductChef(mProduct);
     }
 
     protected void updateProduct(Map<String, Object> map){
@@ -329,6 +331,8 @@ public class EditProductChefActivity extends AppCompatActivity {
 
         switch (id){
             case android.R.id.home:
+                Intent ri = new Intent();
+                setResult(RESULT_OK, ri);
                 finish();
                 break;
             case R.id.edit_photo:

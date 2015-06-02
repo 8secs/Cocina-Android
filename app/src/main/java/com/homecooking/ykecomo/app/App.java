@@ -212,6 +212,14 @@ public class App extends Application {
         return name;
     }
 
+    public static void updateProductChef(Product product){
+        for(int i = 0; i < getProductsChef().size(); i++){
+            if(getProductsChef().get(i).getID() == product.getID()){
+                getProductsChef().set(i, product);
+            }
+        }
+    }
+
 
     public static Bitmap decodeBitmapFromByteArray(byte[] data, int reqWidth, int reqHeight){
         final BitmapFactory.Options options = new BitmapFactory.Options();

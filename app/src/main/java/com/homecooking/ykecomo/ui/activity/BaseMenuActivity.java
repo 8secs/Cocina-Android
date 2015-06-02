@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -318,7 +319,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
                 if(!App.isIsFbMember()) getAvatarLoginUser();
                 break;
             case Constants.EDIT_PRODUCT_REQUEST_CODE:
-                //Log.e
+                Log.e("setActivityResult", "code " + Constants.EDIT_PRODUCT_REQUEST_CODE);
                 getProducts();
                 break;
         }
