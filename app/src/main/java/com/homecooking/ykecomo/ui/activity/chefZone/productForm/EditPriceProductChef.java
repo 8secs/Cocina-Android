@@ -20,6 +20,12 @@ public class EditPriceProductChef extends BaseEditProduct {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_sigleline_text);
         setTitle(getResources().getString(R.string.sales_price));
+
+        if(mExtras.getString(Constants.PRICE) != null){
+            mStr = mExtras.getString(Constants.PRICE);
+        }
+        mSelectedColumn = Constants.PRICE_COLUMN_ITEM;
+
         setupUI();
     }
 
@@ -29,13 +35,28 @@ public class EditPriceProductChef extends BaseEditProduct {
         mTitleLabel.setText(getResources().getString(R.string.sales_price));
         mTitle.setHint(getResources().getString(R.string.price));
         mTitle.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if(mStr != null) mTitle.setText(mStr);
     }
 
     @Override
-    protected void gotoNext(){
-        mExtras.putString(Constants.PORTIONS, mTitle.getText().toString());
-        Intent i = new Intent(EditPriceProductChef.this, EditDescriptionProductChef.class);
+    protected void update(){
+
+        mExtras.putString(Constants.PRICE, mTitle.getText().toString());
+        Intent i;
+        if(mStr == null) {
+            i = new Intent(EditPriceProductChef.this, EditDescriptionProductChef.class);
+            mExtras.putInt(Constants.PRODUCT_ITEMS, Constants.ADD_PRODUCT_ITEM);
+        }
+        else {
+            i = new Intent();
+            mExtras.putInt(Constants.PRODUCT_ITEMS, Constants.EDIT_PRODUCT_ITEM);
+            mExtras.putInt(Constants.COLUMN_PRODUCT_ITEMS, Constants.PRICE_COLUMN_ITEM);
+        }
+
         i.putExtras(mExtras);
-        startActivity(i);
+
+        if(mExtras.getInt(Constants.PRODUCT_ITEMS) == Constants.ADD_PRODUCT_ITEM) startActivity(i);
+        else setResult(RESULT_OK, i);
+
     }
 }

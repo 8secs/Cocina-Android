@@ -1,4 +1,4 @@
-package com.homecooking.ykecomo.ui.activity.memberPreferenceActivities;
+package com.homecooking.ykecomo.ui.activity.userProfile.memberPreferenceActivities;
 
 import android.content.Intent;
 import android.os.Bundle;

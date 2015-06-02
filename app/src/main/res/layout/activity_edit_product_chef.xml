@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ykecomo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_material_light">
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/title_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/title_tag"
+        ykecomo:messageTitle="@string/elige_titulo_producto"
+        ykecomo:messageText="@string/tipo_plato_msg"
+        />
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/category_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_card"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/category_tag"
+        ykecomo:messageTitle="@string/elige_category"
+        ykecomo:messageText="@string/category_msg"/>
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/portion_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_card"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/portions_tag"
+        ykecomo:messageTitle="@string/elige_num_raciones"
+        ykecomo:messageText="@string/raciones_msg"/>
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/price_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/portion_card"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/price_tag"
+        ykecomo:messageTitle="@string/sales_price"
+        ykecomo:messageText="@string/sales_price_msg"
+        />
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/mini_description_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price_card"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/mini_desc_tag"
+        ykecomo:messageTitle="@string/description_plato"
+        ykecomo:messageText="@string/description_msg"
+        />
+
+    <com.homecooking.ykecomo.ui.view.ItemEditView
+        android:id="@+id/content_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mini_description_card"
+        android:layout_marginBottom="2dp"
+        android:tag="@string/content_tag"
+        ykecomo:messageTitle="@string/contenido"
+        ykecomo:messageText="@string/contenido_msg"
+        />
+
+</RelativeLayout>

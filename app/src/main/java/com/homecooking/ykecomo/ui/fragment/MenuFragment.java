@@ -22,9 +22,7 @@ import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.model.ProductCategory;
 import com.homecooking.ykecomo.ui.activity.ChefActivity;
-import com.homecooking.ykecomo.ui.activity.ProductDetailActivity;
 import com.homecooking.ykecomo.ui.activity.ProductsActivity;
-import com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditProductCategoryChefActivity;
 import com.homecooking.ykecomo.ui.adapter.ChefAdapter;
 import com.homecooking.ykecomo.ui.adapter.ProductAdapter;
 import com.homecooking.ykecomo.ui.adapter.ShopAdapter;
@@ -42,7 +40,7 @@ public class MenuFragment extends Fragment implements
 
     protected static String SELECTED_MODE = "SELECTED_MODE";
 
-    //private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     public RecyclerView getList() {
         return mList;
@@ -98,6 +96,19 @@ public class MenuFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.menu_fragment, container, false);
+
+        return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.e("menuFragment", "onActivityCreated");
         mRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.recycler_swipe);
         mList = (RecyclerView) mRootView.findViewById(R.id.section_list);
         mList.setLayoutManager(getLayoutManager());
@@ -114,8 +125,9 @@ public class MenuFragment extends Fragment implements
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, EditProductCategoryChefActivity.class);
-                startActivity(i);
+                /*Intent i = new Intent(mContext, EditProductCategoryChefActivity.class);
+                startActivity(i);*/
+                mListener.onButtonPressed();
             }
         });
 
@@ -139,19 +151,6 @@ public class MenuFragment extends Fragment implements
             });
             if(mMenuProductList != null && mMenuProductList.size() > 0) onProductsChefComplete();
         }
-        return mRootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.e("menuFragment", "onActivityCreated");
-
     }
 
     public void onProductCategoriesComplete(){
@@ -202,9 +201,10 @@ public class MenuFragment extends Fragment implements
             mProductAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                    Product product = mMenuProductList.get(position);
+                    mListener.onListItemInteration(position);
+                    /*Product product = mMenuProductList.get(position);
 
-                    Intent i = new Intent(getActivity(), ProductDetailActivity.class);
+                    Intent i = new Intent(getActivity(), EditProductChefActivity.class);
                     i.putExtra(Constants.PRODUCTID_BUNDLE_KEY, product.getID());
 
                     if(product.getMember() != null){
@@ -212,7 +212,7 @@ public class MenuFragment extends Fragment implements
                         String address = product.getMember().getAddress().getCity() + "-" + product.getMember().getAddress().getCountry();
                         i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
                     }
-                    startActivity(i);
+                    startActivity(i);*/
                 }
             });
             mList.setAdapter(mProductAdapter);
@@ -249,12 +249,12 @@ public class MenuFragment extends Fragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*try {
+        try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
-        }*/
+        }
     }
 
     @Override
@@ -270,8 +270,8 @@ public class MenuFragment extends Fragment implements
     }
 
     public interface OnFragmentInteractionListener {
-
-        public void onFragmentInteraction(int position);
+        public void onListItemInteration(int position);
+        public void onButtonPressed();
     }
 
 }

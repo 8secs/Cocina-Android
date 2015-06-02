@@ -2,6 +2,7 @@ package com.homecooking.ykecomo.ui.activity.chefZone.productForm;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +13,17 @@ import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.model.Image;
+import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.operators.image.GetImageFromIntegerFunc;
 import com.homecooking.ykecomo.operators.image.SetImageFunc;
+import com.homecooking.ykecomo.rest.model.ApiResponse;
 import com.homecooking.ykecomo.ui.activity.image.BaseImageUpload;
 import com.homecooking.ykecomo.ui.activity.image.NewPhoto;
 import com.soundcloud.android.crop.Crop;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -32,7 +39,7 @@ public class EditImageProductChef extends BaseImageUpload {
 
     Button mNext;
     Bundle mExtras;
-
+    Product mProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +52,82 @@ public class EditImageProductChef extends BaseImageUpload {
 
         mAvatarView = (ImageView) findViewById(R.id.avatar);
         mNext = (Button) findViewById(R.id.next);
-        mNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+        if(mExtras != null){
+            if(mExtras.getInt(Constants.PRODUCT_ITEMS) == Constants.EDIT_PRODUCT_ITEM){
+                mNext.setVisibility(View.GONE);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.done_pref_btn));
+                getSupportActionBar().setTitle(getResources().getString(R.string.DONE));
+                if(mExtras.getString(Constants.IMAGE) != null){
+                    this.setImage(mExtras.getString(Constants.IMAGE), mAvatarView);
+                }
+            }else{
+                mNext.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createProduct();
+                    }
+                });
             }
-        });
+        }
+    }
+
+    protected void createProduct(){
+        App.getRestClient()
+                .getPageService()
+                .createProduct(setParams())
+                .subscribe(new Action1<ApiResponse>() {
+                    @Override
+                    public void call(ApiResponse apiResponse) {
+                        Log.e("result", apiResponse.getProducts().toString());
+                    }
+                });
+
+    }
+
+    protected ArrayList<Map<String, Object>> setParams(){
+
+        mProduct = new Product();
+
+        mProduct.setMember(App.getMember());
+        mProduct.setTitle(mExtras.getString(Constants.TITLE));
+        mProduct.setModel(mExtras.getString(Constants.TITLE));
+        mProduct.setPortions(mExtras.getString(Constants.PORTIONS));
+        mProduct.setBasePrice(mExtras.getString(Constants.PRICE));
+        mProduct.setMiniDescription(mExtras.getString(Constants.MINI_DESCRIPTION));
+        mProduct.setContent(mExtras.getString(Constants.CONTENT));
+        mProduct.setParentID(mExtras.getString(Constants.PARENT));
+        mProduct.setImage(Integer.toString(mAvatar.getId()));
+        mProduct.setAllowPurchase("1");
+
+        ArrayList<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
+
+        Map<String, Object> hasmap = new Hashtable<String, Object>();
+        hasmap.put(Constants.CHEF_ID, mProduct.getMember().getId());
+        hasmap.put(Constants.TITLE, mProduct.getTitle());
+        hasmap.put(Constants.MODEL, mProduct.getModel());
+        hasmap.put(Constants.PORTIONS, mProduct.getPortions());
+        hasmap.put(Constants.PRICE, mProduct.getBasePrice());
+        hasmap.put(Constants.MINI_DESCRIPTION, mProduct.getMiniDescription());
+        hasmap.put(Constants.CONTENT, mProduct.getContent());
+        hasmap.put(Constants.PARENT, Integer.parseInt(mProduct.getParentID()));
+        hasmap.put(Constants.IMAGE_ID, mAvatar.getId());
+        hasmap.put(Constants.ALLOW_PURCHASE, mProduct.getAllowPurchase());
+
+        params.add(hasmap);
+
+        return params;
+    }
+
+    protected void update(){
+
+        Intent i = new Intent();
+        mExtras.putInt(Constants.IMAGE_ID, mAvatar.getId());
+        mExtras.putInt(Constants.PRODUCT_ITEMS, Constants.EDIT_PRODUCT_ITEM);
+        mExtras.putInt(Constants.COLUMN_PRODUCT_ITEMS, Constants.IMAGE_COLUMN_ITEM);
+        i.putExtras(mExtras);
+        setResult(RESULT_OK, i);
     }
 
     @Override
@@ -70,6 +147,10 @@ public class EditImageProductChef extends BaseImageUpload {
                 break;
             case R.id.select_photo:
                 Crop.pickImage(EditImageProductChef.this);
+                break;
+            case android.R.id.home:
+                update();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -51,7 +51,7 @@ public class EditProductCategoryChefActivity extends AppCompatActivity {
         mProgress = (CircleProgressBar) findViewById(R.id.progressBar);
 
         setupList();
-        createProductCategories();
+        getProductCategories();
     }
 
     protected void setupList(){
@@ -73,7 +73,7 @@ public class EditProductCategoryChefActivity extends AppCompatActivity {
         return new DividerDecoration(this);
     }
 
-    protected void createProductCategories(){
+    protected void getProductCategories(){
         App.getRestClient()
                 .getPageService()
                 .getCategories()
@@ -103,10 +103,10 @@ public class EditProductCategoryChefActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(ProductCategory entity) {
                     Log.e("onItemClick", entity.getTitle());
-
-                    Intent intent = new Intent(EditProductCategoryChefActivity.this, EditTitleProductChefActivity.class);
-                    intent.putExtra(Constants.PARENT, Integer.toString(entity.getID()));
-                    startActivity(intent);
+                    Intent i = new Intent(EditProductCategoryChefActivity.this, EditTitleProductChefActivity.class);
+                    i.putExtra(Constants.PRODUCT_ITEMS, Constants.ADD_PRODUCT_ITEM);
+                    i.putExtra(Constants.PARENT, Integer.toString(entity.getID()));
+                    startActivity(i);
                 }
             });
         }

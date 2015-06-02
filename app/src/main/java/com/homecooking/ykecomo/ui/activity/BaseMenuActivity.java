@@ -60,7 +60,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
-public class BaseMenuActivity extends AppCompatActivity{
+public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.OnFragmentInteractionListener{
 
     protected static final int PROFILE_SETTING = 1;
 
@@ -317,6 +317,10 @@ public class BaseMenuActivity extends AppCompatActivity{
             case Constants.EDIT_PROFILE_REQUEST_CODE:
                 if(!App.isIsFbMember()) getAvatarLoginUser();
                 break;
+            case Constants.EDIT_PRODUCT_REQUEST_CODE:
+                //Log.e
+                getProducts();
+                break;
         }
     }
 
@@ -438,6 +442,12 @@ public class BaseMenuActivity extends AppCompatActivity{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisplayTextOnViewAction(), new ErrorHandler());
     }
+
+    @Override
+    public void onListItemInteration(int position) { }
+
+    @Override
+    public void onButtonPressed() { }
 
     protected void unSubscribeLocation(){
         updatableLocationSubscription.unsubscribe();

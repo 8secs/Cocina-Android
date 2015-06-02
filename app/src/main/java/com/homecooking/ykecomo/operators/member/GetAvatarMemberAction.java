@@ -13,6 +13,7 @@ public class GetAvatarMemberAction implements Action0 {
 
     @Override
     public void call() {
+
         this.mActivity.onMemberComplete();
     }
 }

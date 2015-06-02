@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.Constants;
-import com.homecooking.ykecomo.ui.utils.PhotoHandler;
 
 import java.io.File;
 import java.io.IOException;

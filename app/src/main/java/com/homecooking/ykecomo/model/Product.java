@@ -177,10 +177,6 @@ public class Product {
         this.parentID = parentID;
     }
 
-    public void setmImgUrl(String mImgUrl) {
-        this.mImgUrl = mImgUrl;
-    }
-
     public void setmChefName(String mChefName) {
         this.mChefName = mChefName;
     }

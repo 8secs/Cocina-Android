@@ -1,4 +1,4 @@
-package com.homecooking.ykecomo.ui.activity.memberPreferenceActivities;
+package com.homecooking.ykecomo.ui.activity.userProfile.memberPreferenceActivities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -95,7 +95,7 @@ public class AddressMember extends AppCompatActivity implements AdapterView.OnIt
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, countries);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_row, countries);
         mSpinnerCountry.setAdapter(adapter);
         mSpinnerCountry.setOnItemSelectedListener(this);
 

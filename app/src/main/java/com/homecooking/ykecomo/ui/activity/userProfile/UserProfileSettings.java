@@ -90,7 +90,7 @@ public class UserProfileSettings extends BaseUserProfileActivity {
             namePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent("com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EditFullnameMember");
+                    Intent i = new Intent("com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.EditFullnameMember");
                     i.putExtra(Constants.MEMBER_NAME, App.getPref().getString(Constants.MEMBER_NAME, ""));
                     i.putExtra(Constants.MEMBER_SURNAME, App.getPref().getString(Constants.MEMBER_SURNAME, ""));
                     startActivityForResult(i, Constants.EDIT_PROFILE_REQUEST_CODE);
@@ -102,7 +102,7 @@ public class UserProfileSettings extends BaseUserProfileActivity {
             addressPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent("com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.AddressMember");
+                    Intent i = new Intent("com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.AddressMember");
                     startActivityForResult(i, Constants.EDIT_PROFILE_REQUEST_CODE);
                     return false;
                 }
@@ -112,7 +112,7 @@ public class UserProfileSettings extends BaseUserProfileActivity {
             emailPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent("com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EmailMember");
+                    Intent i = new Intent("com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.EmailMember");
                     i.putExtra(Constants.MEMBER_EMAIL, App.getPref().getString(Constants.MEMBER_EMAIL, ""));
                     startActivityForResult(i, Constants.EDIT_PROFILE_REQUEST_CODE);
                     return false;
@@ -123,7 +123,7 @@ public class UserProfileSettings extends BaseUserProfileActivity {
             descPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent("com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.DescriptionMember");
+                    Intent i = new Intent("com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.DescriptionMember");
                     i.putExtra(Constants.MEMBER_DESCRIPTION, App.getPref().getString(Constants.MEMBER_DESCRIPTION, ""));
                     startActivityForResult(i, Constants.EDIT_PROFILE_REQUEST_CODE);
                     return false;

@@ -1,4 +1,4 @@
-package com.homecooking.ykecomo.ui.utils;
+package com.homecooking.ykecomo.ui.activity.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;

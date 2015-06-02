@@ -20,6 +20,9 @@
     <string name="title_activity_chefs">ChefsActivity</string>
     <string name="title_activity_edit_fullname_member">EditFullnameMember</string>
     <string name="title_activity_chef_menu_principal">Entorno Chef</string>
+    <string name="title_activity_menu_principal">MenuPrincipalActivity</string>
+    <string name="title_activity_new_photo">NewPhoto</string>
+    <string name="title_activity_init_help">InitHelpActivity</string>
 
     <!-- Drawer Items -->
     <string name="drawer_item_multi_drawer">MultiDrawer Sample</string>
@@ -67,7 +70,6 @@
     <string name="HACER_PHOTO">Hacer foto</string>
     <string name="SELECCIONAR_DESDE_LIBRERIA">Seleccionar foto</string>
     <string name="SELECCIONA_ARCHIVO">Selecciona archivo</string>
-    <string name="title_activity_new_photo">NewPhoto</string>
     <string name="change_image">Cambiar imagen</string>
 
 
@@ -123,27 +125,45 @@
     <string name="min_legth_pass">Enter at least 5 characters.</string>
     <string name="email_pass_invalid">Email or password incorrect. Please, try again</string>
     <string name="email_on_bbdd">Este email ya está en la base de datos.</string>
-    <string name="title_activity_init_help">InitHelpActivity</string>
 
     <string name="tipo_plato_msg">¿Qué tipo de plato vas a preparar?</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_menu_principal">MenuPrincipalActivity</string>
+
 
     <string name="action_hide">Hide Panel</string>
     <string name="action_anchor_enable">Enable Anchor Point</string>
 
     <string name="select_categoria">Elige categoría</string>
     <string name="elige_titulo_producto">Nombre del plato</string>
+    <string name="titulo_product_msg">Un nombre adecuado entra por los ojos...</string>
+    <string name="categoria">Categoría</string>
+    <string name="elige_category">Selecciona categoría del plato</string>
+    <string name="category_msg">Es importante seleccionar bien en que categoria incluimos el plato</string>
     <string name="elige_num_raciones">Elige el numero de raciones</string>
+    <string name="raciones_msg">Ajusta el número a la cantidad de comida</string>
     <string name="raciones">Raciones</string>
     <string name="sales_price">Precio de venta</string>
+    <string name="sales_price_msg">Ajusta el precio para mejorar tus ventas</string>
     <string name="price">Precio</string>
     <string name="description_plato">Descripcion del plato</string>
+    <string name="description_msg">Introduce un eslogan atractivo para tu plato</string>
     <string name="description">Descripcion</string>
     <string name="add_image_product">Incluye una imagen</string>
     <string name="next">Siguiente</string>
     <string name="save">Guardar</string>
+    <string name="contenido">Contenido</string>
+    <string name="description_large">Describe tu plato</string>
+    <string name="contenido_msg">Incluye toda la información detallada del plato</string>
+    <string name="euro">€</string>
+
+    <string name="title_tag">Title</string>
+    <string name="image">Image</string>
+    <string name="category_tag">Category</string>
+    <string name="portions_tag">Portions</string>
+    <string name="price_tag">BasePrice</string>
+    <string name="mini_desc_tag">MiniDescription</string>
+    <string name="content_tag">Content</string>
 
 </resources>

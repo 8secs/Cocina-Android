@@ -48,6 +48,9 @@ public class ApiResponse {
     @SerializedName("image")
     public Image image;
 
+    @SerializedName("product")
+    public Product product;
+
     @SerializedName("groups")
     public ArrayList<Group> groups;
 
@@ -77,6 +80,8 @@ public class ApiResponse {
     public ArrayList<Product> getProducts() {
         return products;
     }
+
+    public Product getProduct() { return product; }
 
     public ArrayList<Member> getMembers() {
         return members;

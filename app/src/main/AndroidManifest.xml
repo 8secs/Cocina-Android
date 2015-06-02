@@ -6,7 +6,7 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <uses-permission android:name="com.visitaelaljarafe.homecooking.maps.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.homecooking.ykecomo.maps.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -116,40 +116,40 @@
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
         </activity>
         <activity
-            android:name=".ui.activity.memberPreferenceActivities.EditFullnameMember"
+            android:name=".ui.activity.userProfile.memberPreferenceActivities.EditFullnameMember"
             android:label="@string/title_activity_edit_fullname_member"
             android:theme="@style/ActionPreference" >
             <intent-filter>
-                <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EditFullnameMember" />
+                <action android:name="com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.EditFullnameMember" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.memberPreferenceActivities.EmailMember"
+            android:name=".ui.activity.userProfile.memberPreferenceActivities.EmailMember"
             android:label="@string/title_activity_email_member"
             android:theme="@style/ActionPreference" >
             <intent-filter>
-                <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.EmailMember" />
+                <action android:name="com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.EmailMember" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.memberPreferenceActivities.DescriptionMember"
+            android:name=".ui.activity.userProfile.memberPreferenceActivities.DescriptionMember"
             android:label="@string/title_activity_description_member"
             android:theme="@style/ActionPreference" >
             <intent-filter>
-                <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.DescriptionMember" />
+                <action android:name="com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.DescriptionMember" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.memberPreferenceActivities.AddressMember"
+            android:name=".ui.activity.userProfile.memberPreferenceActivities.AddressMember"
             android:theme="@style/ActionPreference" >
             <intent-filter>
-                <action android:name="com.visitaelaljarafe.homecooking.ui.activity.memberPreferenceActivities.AddressMember" />
+                <action android:name="com.homecooking.ykecomo.ui.activity.memberPreferenceActivities.AddressMember" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -173,23 +173,68 @@
         </activity>
         <activity
             android:name=".ui.activity.chefZone.productForm.EditTitleProductChefActivity"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditTitleProductChefActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditProductCategorySpinnerActivity"
+            android:windowSoftInputMode="stateVisible"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditProductCategorySpinnerActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.chefZone.productForm.EditPortionProductChef"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditPortionProductChef" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.chefZone.productForm.EditPriceProductChef"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditPriceProductChef" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.chefZone.productForm.EditDescriptionProductChef"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditDescriptionProductChef" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.chefZone.productForm.EditImageProductChef"
             android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditImageProductChef" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.chefZone.productForm.EditContentProductChef"
+            android:windowSoftInputMode="stateVisible"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar" >
+            <intent-filter>
+                <action android:name="com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditContentProductChef" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.chefZone.EditProductChefActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.ActionBar">
         </activity>
         <!-- ******************************************************************************** -->
 

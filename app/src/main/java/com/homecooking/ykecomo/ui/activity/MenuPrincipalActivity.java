@@ -2,6 +2,7 @@ package com.homecooking.ykecomo.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -207,28 +208,37 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     }
 
     private Member setAddressToChef(Address address){
-        for(Member member : mMenuChefList){
-            if(member.getDefaultShippingAddress() != null){
-                if(Integer.valueOf(member.getDefaultShippingAddress()) == address.getId()){
-                    member.setAddress(address);
-                    return member;
+        if(mMenuChefList.size() > 0){
+            for(Member member : mMenuChefList){
+                if(member.getDefaultShippingAddress() != null){
+                    if(Integer.valueOf(member.getDefaultShippingAddress()) == address.getId()){
+                        member.setAddress(address);
+                        return member;
+                    }
                 }
             }
+        }else{
+            Log.e("setAddressToChef", "mMenuChefList.size=0");
         }
+
         return null;
     }
 
     private Member setAvatarToChef(Image image){
-        for (Member member : mMenuChefList) {
-            if(member.getAvatar() != null){
-                if (Integer.valueOf(member.getAvatar()) == image.getId()) {
-                    member.setAvatarFilename(image.getFilename());
+        if(mMenuChefList.size() > 0) {
+            for (Member member : mMenuChefList) {
+                if (member.getAvatar() != null) {
+                    if (Integer.valueOf(member.getAvatar()) == image.getId()) {
+                        member.setAvatarFilename(image.getFilename());
+                        return member;
+                    }
+                } else {
+                    member.setAvatarFilename(Constants.DEFAULT_AVATAR_CHEF);
                     return member;
                 }
-            }else{
-                member.setAvatarFilename(Constants.DEFAULT_AVATAR_CHEF);
-                return member;
             }
+        }else{
+            Log.e("setAvatarToChef", "mMenuChefList.size = 0");
         }
         return null;
     }

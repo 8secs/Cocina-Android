@@ -4,8 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 @Parcel
-public class ProductCategory {
+public class ProductCategory implements Serializable{
 
     public int id;
 
