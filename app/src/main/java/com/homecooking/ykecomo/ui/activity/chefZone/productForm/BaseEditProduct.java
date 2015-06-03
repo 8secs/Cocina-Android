@@ -68,9 +68,7 @@ public class BaseEditProduct extends AppCompatActivity implements Validator.Vali
         }
     }
 
-    protected void update(){
-
-    }
+    protected void update(){ }
 
     public void onValidationSucceeded() { update(); }
 

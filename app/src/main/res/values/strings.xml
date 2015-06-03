@@ -1,10 +1,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">YkeComes</string>
-    <string name="app_id">1406811749613981</string>
+    <string name="app_id" translatable="false">1406811749613981</string>
     <string name="title_template_step">Step <xliff:g id="step_number">%1$d</xliff:g>: Lorem Ipsum</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configuración</string>
     <string name="lorem_ipsum"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et magna ut erat elementum cursus in quis ipsum. Nam faucibus ultrices eros, vel tempor leo semper sit amet. Duis magna quam, congue vitae interdum nec, condimentum ut lectus. Sed commodo venenatis eros a dignissim. Nunc adipiscing turpis nec magna venenatis at ultricies ipsum bibendum. Sed volutpat urna quis nisi vulputate egestas. Etiam eu dui a enim lacinia dapibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n\n]]></string>
-    <string name="action_previous">Previous</string>
+    <string name="action_previous">Anterior</string>
     <string name="dummy_button">Go to content</string>
 
     <string name="title_activity_products">Products</string>
@@ -50,7 +50,7 @@
     <string name="tu_address">Tu dirección</string>
     <string name="DONE">Hecho</string>
     <string name="PORTIONS">Raciones: </string>
-    <string name="PRODUCT_IMAGE">Product Image</string>
+    <string name="PRODUCT_IMAGE">Imagen del producto</string>
 
 
     <!-- Drawer Items -->
@@ -79,21 +79,21 @@
     <string name="email_verified">Tiene verificado el email</string>
     <string name="email_no_verified">No tiene el email verificado</string>
     <string name="no_description_profile">Sin descripción</string>
-    <string name="cancelled">Cancelled</string>
+    <string name="cancelled">Cancelado</string>
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
     <string name="ok">OK</string>
-    <string name="MEMBER_NAME_KEY">member_name</string>
+    <string name="MEMBER_NAME_KEY" translatable="false">member_name</string>
 
-    <string name="SURNAME_KEY">member_surname</string>
-    <string name="EMAIL_KEY">member_email</string>
-    <string name="ADDRESS_KEY">member_address</string>
-    <string name="MEMBER_AVATAR">member_image</string>
-    <string name="DESCRIPTION_KEY">member_description</string>
+    <string name="SURNAME_KEY" translatable="false">member_surname</string>
+    <string name="EMAIL_KEY" translatable="false">member_email</string>
+    <string name="ADDRESS_KEY" translatable="false">member_address</string>
+    <string name="MEMBER_AVATAR" translatable="false">member_image</string>
+    <string name="DESCRIPTION_KEY" translatable="false">member_description</string>
 
-    <string name="MEMBER_DEFAULT_VALUE">Tu nombre</string>
+    <string name="MEMBER_DEFAULT_VALUE">Nombre</string>
     <string name="ADDRESS_DEFAULT_VALUE">Tu dirección completa</string>
-    <string name="EMAIL_DEFAULT_VALUE">Tu email</string>
-    <string name="DESCRIPTION_DEFAULT_VALUE">Tu descripción</string>
+    <string name="EMAIL_DEFAULT_VALUE">Email</string>
+    <string name="DESCRIPTION_DEFAULT_VALUE">Descripción</string>
 
     <!-- ADDRESS -->
     <string name="COUNTRY_LB">País</string>
@@ -132,7 +132,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="action_hide">Hide Panel</string>
+    <string name="action_hide">Ocultar panel</string>
     <string name="action_anchor_enable">Enable Anchor Point</string>
 
     <string name="select_categoria">Elige categoría</string>
@@ -157,10 +157,11 @@
     <string name="description_large">Describe tu plato</string>
     <string name="contenido_msg">Incluye toda la información detallada del plato</string>
     <string name="euro">€</string>
+    <string name="revisiones">Revisiones</string>
 
     <string name="title_tag">Title</string>
     <string name="image">Image</string>
-    <string name="category_tag">Category</string>
+    <string name="category_tag" translatable="false">Category</string>
     <string name="portions_tag">Portions</string>
     <string name="price_tag">BasePrice</string>
     <string name="mini_desc_tag">MiniDescription</string>

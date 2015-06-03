@@ -30,6 +30,17 @@ public interface ApiService {
     @GET("/api/Product")
     Observable<ApiResponse> getProductsCategory(@Query("ParentID") String parentID);
 
+    @GET("/api/Product")
+    Observable<ApiResponse> getProductDetail(@Query("ID") int id);
+
+    @POST("/api/Product")
+    Observable<ApiResponse> createProduct(@Body List<Map<String, Object>> params);
+
+    @PUT("/api/Product/{ID}")
+    Observable<ApiResponse> updateProduct(@Path("ID") int ID, @Body List<Map<String, Object>> params);
+
+
+
     @GET("/api/Group")
     Observable<ApiResponse> getChefGroup(@Query("ID") int ID);
 
@@ -57,6 +68,8 @@ public interface ApiService {
     @PUT("/api/Member/{FacebookUID}")
     Observable<ApiResponse> updateAvatarMemberFb(@Path("FacebookUID") String FacebookUID, @Body List<Hashtable<String, ?>> params);
 
+
+
     @POST("/api/Address")
     Observable<ApiResponse> createAddress(@Body List<Map<String, Object>> params);
 
@@ -66,12 +79,11 @@ public interface ApiService {
     @PUT("/api/Address/{ID}")
     Observable<ApiResponse> updateAddress(@Path("ID") int ID, @Body List<Map<String, Object>> params);
 
+
+
     @Multipart
     @POST("/home/Upload")
     Observable<Integer> uploadImage(@Part("Files") TypedFile photo);
-    
-    @GET("/api/Product")
-    Observable<ApiResponse> getProductDetail(@Query("ID") int id);
 
     @GET("/api/Image")
     Observable<ApiResponse> getImage(@Query("ID") int id);
@@ -79,11 +91,7 @@ public interface ApiService {
     @POST("/api/Image")
     Observable<ApiResponse> createImage(@Body List<Hashtable<String, String>> params);
 
-    @POST("/api/Product")
-    Observable<ApiResponse> createProduct(@Body List<Map<String, Object>> params);
 
-    @PUT("/api/Product/{ID}")
-    Observable<ApiResponse> updateProduct(@Path("ID") int ID, @Body List<Map<String, Object>> params);
 
     @GET("/api/WishList")
     Observable<ApiResponse> getWishListUser(@Query("OwnerID") int OwnerID);

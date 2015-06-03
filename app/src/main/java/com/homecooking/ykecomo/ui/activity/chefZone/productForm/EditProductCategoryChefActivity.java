@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.homecooking.ykecomo.R;
@@ -102,11 +101,12 @@ public class EditProductCategoryChefActivity extends AppCompatActivity {
             mAdapter.setOnItemClickListener(new ShopAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(ProductCategory entity) {
-                    Log.e("onItemClick", entity.getTitle());
                     Intent i = new Intent(EditProductCategoryChefActivity.this, EditTitleProductChefActivity.class);
                     i.putExtra(Constants.PRODUCT_ITEMS, Constants.ADD_PRODUCT_ITEM);
                     i.putExtra(Constants.PARENT, Integer.toString(entity.getID()));
+                    i.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
                     startActivity(i);
+                    finish();
                 }
             });
         }

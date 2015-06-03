@@ -174,7 +174,6 @@ public class UserProfileSettings extends BaseUserProfileActivity {
                         mAddress.setState(extras.getString(Constants.MEMBER_STATE));
                         mAddress.setCountry(extras.getString(Constants.MEMBER_COUNTRY));
                         mAddress.setCity(extras.getString(Constants.MEMBER_CITY));
-
                         break;
 
                 }

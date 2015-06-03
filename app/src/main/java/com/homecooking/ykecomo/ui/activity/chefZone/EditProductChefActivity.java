@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -234,7 +233,6 @@ public class EditProductChefActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent i;
-            Log.e("onClickListnere", v.getTag().toString());
             switch (v.getTag().toString()){
                 case Constants.TITLE:
                     i = new Intent("com.homecooking.ykecomo.ui.activity.chefZone.productForm.EditTitleProductChefActivity");

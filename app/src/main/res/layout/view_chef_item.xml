@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
                 android:layout_alignParentRight="true"
-                tools:text="raciones"/>
+                tools:text="@string/raciones"/>
             <TextView
                 android:id="@+id/text_city"
                 android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_plates"
                 android:textColor="@color/primary_text"
-                tools:text="Sevilla"/>
+                tools:text="@string/city"/>
 
         </RelativeLayout>
     </RelativeLayout>

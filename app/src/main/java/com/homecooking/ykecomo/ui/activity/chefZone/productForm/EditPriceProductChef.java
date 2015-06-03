@@ -55,8 +55,12 @@ public class EditPriceProductChef extends BaseEditProduct {
 
         i.putExtras(mExtras);
 
-        if(mExtras.getInt(Constants.PRODUCT_ITEMS) == Constants.ADD_PRODUCT_ITEM) startActivity(i);
+        if(mExtras.getInt(Constants.PRODUCT_ITEMS) == Constants.ADD_PRODUCT_ITEM) {
+            i.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+            startActivity(i);
+        }
         else setResult(RESULT_OK, i);
 
+        finish();
     }
 }

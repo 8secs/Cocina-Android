@@ -14,9 +14,11 @@ import com.homecooking.ykecomo.actions.product.GetProductCategoryOnNext;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.model.Address;
+import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.WishList;
+import com.homecooking.ykecomo.model.WishListItem;
 import com.homecooking.ykecomo.operators.ErrorHandler;
 import com.homecooking.ykecomo.operators.member.GetAvatarMemberAction;
 import com.homecooking.ykecomo.operators.member.GetAvatarMemberOnNext;
@@ -36,6 +38,7 @@ import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import java.util.ArrayList;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -45,6 +48,9 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected static int PRODUCT_CATEGORIES_VIEW = 0;
     protected static int CHEF_USER_VIEW = 1;
     protected static int FAVORITE_VIEW = 2;
+
+    protected ArrayList<WishList> wishLists;
+    protected ArrayList<WishListItem> wishListItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,13 +191,14 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected void getFavorites(){
         mSelctedView = FAVORITE_VIEW;
         if(mMenuWishList.size() > 0) mMenuWishList.removeAll(mMenuWishList);
+
         App.getRestClient()
                 .getPageService()
                 .getWishListUser(App.getMember().getId())
                 .flatMap(new Func1<ApiResponse, Observable<WishList>>() {
                     @Override
                     public Observable<WishList> call(ApiResponse apiResponse) {
-                        ArrayList<WishList> wishLists = apiResponse.getWishLists();
+                        wishLists = apiResponse.getWishLists();
                         return Observable.from(wishLists);
                     }
                 })
@@ -204,7 +211,62 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
                         return observable;
                     }
                 })
-                .subscribe();
+                .flatMap(new Func1<ApiResponse, Observable<ApiResponse>>() {
+                    @Override
+                    public Observable<ApiResponse> call(ApiResponse apiResponse) {
+                        WishListItem item = apiResponse.getWishListItems().get(0);
+                        wishListItems.add(item);
+                        Observable<ApiResponse> ob;
+                        if (item.getBuyableClassName().equals("Product")) {
+                            ob = App.getRestClient()
+                                    .getPageService()
+                                    .getProductDetail(Integer.parseInt(item.getBuyableID()));
+                            return ob;
+                        } else if (item.getBuyableClassName().equals("Member")) {
+                            ob = App.getRestClient()
+                                    .getPageService()
+                                    .getMember(item.getBuyableID());
+                            return ob;
+                        }
+                        return null;
+                    }
+                })
+                .map(new Func1<ApiResponse, Favorite>() {
+                    @Override
+                    public Favorite call(ApiResponse apiResponse) {
+                        Favorite favorite = new Favorite();
+                        if (apiResponse.getMembers() != null && apiResponse.getMembers().size() > 0)
+                            favorite.setMember(apiResponse.getMembers().get(0));
+                        if (apiResponse.getProducts() != null && apiResponse.getProducts().size() > 0)
+                            favorite.setProduct(apiResponse.getProducts().get(0));
+                        if (apiResponse.getImages() != null && apiResponse.getImages().size() > 0)
+                            favorite.setImage(apiResponse.getImages().get(0));
+                        if (apiResponse.getAddresses() != null && apiResponse.getAddresses().size() > 0)
+                            favorite.setAddress(apiResponse.getAddresses().get(0));
+
+                        return favorite;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .cache()
+                .subscribe(new Subscriber<Favorite>() {
+                    @Override
+                    public void onCompleted() {
+                        onWishlistComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Favorite favorite) {
+                        favorite.setId(mMenuWishList.size() + 1);
+                        mMenuWishList.add(favorite);
+                    }
+                });
     }
 
     private Member setAddressToChef(Address address){
@@ -259,6 +321,14 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
         }
     }
 
+    public void onWishlistComplete(){
+        showProgress(false);
+        if(mFavoriteFragment != null){
+            mFavoriteFragment.setMenuFavoriteList(mMenuWishList);
+            mFavoriteFragment.onFavoriteComplete();
+        }
+    }
+
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem drawerItem) {
@@ -296,7 +366,6 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
         return true;
     }
 

@@ -3,13 +3,11 @@ package com.homecooking.ykecomo.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +16,14 @@ import android.widget.AdapterView;
 import com.github.clans.fab.FloatingActionButton;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.model.ProductCategory;
 import com.homecooking.ykecomo.ui.activity.ChefActivity;
 import com.homecooking.ykecomo.ui.activity.ProductsActivity;
 import com.homecooking.ykecomo.ui.adapter.ChefAdapter;
+import com.homecooking.ykecomo.ui.adapter.FavoriteAdapter;
 import com.homecooking.ykecomo.ui.adapter.ProductAdapter;
 import com.homecooking.ykecomo.ui.adapter.ShopAdapter;
 import com.homecooking.ykecomo.ui.view.DividerDecoration;
@@ -56,6 +56,9 @@ public class MenuFragment extends Fragment implements
     private ChefAdapter mChefAdapter;
     private ArrayList<Member> mMenuChefList = new ArrayList<Member>();
 
+    private FavoriteAdapter mFavoriteAdapter;
+    private ArrayList<Favorite> mMenuFavoriteList = new ArrayList<>();
+
     private ProductAdapter mProductAdapter;
     private ArrayList<Product> mMenuProductList = new ArrayList<>();
 
@@ -67,6 +70,7 @@ public class MenuFragment extends Fragment implements
     public void setMenuChefList(ArrayList<Member> menuList){
         this.mMenuChefList = menuList;
     }
+    public void setMenuFavoriteList(ArrayList<Favorite> favoriteList) { this.mMenuFavoriteList = favoriteList; }
     public void setMenuProductList(ArrayList<Product> menuList) { this.mMenuProductList = menuList; }
 
     public static MenuFragment newInstance(int selectedMode, Context context) {
@@ -108,7 +112,6 @@ public class MenuFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("menuFragment", "onActivityCreated");
         mRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.recycler_swipe);
         mList = (RecyclerView) mRootView.findViewById(R.id.section_list);
         mList.setLayoutManager(getLayoutManager());
@@ -125,8 +128,6 @@ public class MenuFragment extends Fragment implements
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(mContext, EditProductCategoryChefActivity.class);
-                startActivity(i);*/
                 mListener.onButtonPressed();
             }
         });
@@ -195,6 +196,16 @@ public class MenuFragment extends Fragment implements
         }
     }
 
+    public void onFavoriteComplete(){
+        if(mList != null){
+            mFavoriteAdapter = new FavoriteAdapter(getActivity());
+            mFavoriteAdapter.setData(mMenuFavoriteList);
+            mList.setAdapter(mFavoriteAdapter);
+            mRefreshLayout.setRefreshing(false);
+            mFavoriteAdapter.notifyDataSetChanged();
+        }
+    }
+
     public void onProductsChefComplete(){
         if(mList != null){
             mProductAdapter = new ProductAdapter(getActivity());
@@ -202,17 +213,6 @@ public class MenuFragment extends Fragment implements
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                     mListener.onListItemInteration(position);
-                    /*Product product = mMenuProductList.get(position);
-
-                    Intent i = new Intent(getActivity(), EditProductChefActivity.class);
-                    i.putExtra(Constants.PRODUCTID_BUNDLE_KEY, product.getID());
-
-                    if(product.getMember() != null){
-                        i.putExtra(Constants.AVATAR_BUNDLE_KEY, product.getMember().getAvatarFilename());
-                        String address = product.getMember().getAddress().getCity() + "-" + product.getMember().getAddress().getCountry();
-                        i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
-                    }
-                    startActivity(i);*/
                 }
             });
             mList.setAdapter(mProductAdapter);
@@ -235,15 +235,12 @@ public class MenuFragment extends Fragment implements
 
     @Override
     public void onRefresh() {
-        /**
-         * TODO: VERIFICAR CON QUE LISTA TRABAJAMOS PARA ACTUALIZAR
-         */
-    }
-
-    public void onButtonPressed(Uri uri) {
-        /*if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }*/
+        if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
+            if(mMenuList != null && mMenuList.size() > 0) onProductCategoriesComplete();
+            if(mMenuChefList != null && mMenuChefList.size() > 0) onMemberComplete();
+        }else{
+            if(mMenuProductList != null && mMenuProductList.size() > 0) onProductsChefComplete();
+        }
     }
 
     @Override

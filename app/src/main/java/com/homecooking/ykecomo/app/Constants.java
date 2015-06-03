@@ -23,6 +23,7 @@ public class Constants {
     public static int EDIT_EMAIL_MEMBER_PROFILE = 2;
     public static int EDIT_DESC_MEMBER_PROFILE = 3;
     public static int EDIT_ADDRESS_MEMBER_PROFILE = 4;
+    public static int EDIT_IMAGE_MEMBER_PROFILE = 5;
 
     public static String USER_ENVIRONMENT = "user_environment";
     public static int USER_ENVIRONMENT_MODE = 1;

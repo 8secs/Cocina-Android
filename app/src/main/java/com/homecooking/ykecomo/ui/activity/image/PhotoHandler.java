@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.homecooking.ykecomo.app.App;
-import com.homecooking.ykecomo.ui.activity.image.NewPhoto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

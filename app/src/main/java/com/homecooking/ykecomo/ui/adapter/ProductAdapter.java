@@ -37,29 +37,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductI
     public ProductAdapter(Context context) {
         mItems = new ArrayList<Product>();
         mContext = context;
-        //Log.d("ProductAdapter", "context " + mContext);
     }
 
     public void setItemCount(int count) {
-        //mItems.clear();
-        //mItems.addAll(generateDummyData(count));
         notifyDataSetChanged();
     }
-
-
-    public void addItem(int position) {
-        //mItems.add(position, generateDummyItem());
-        notifyItemInserted(position);
-    }
-
-
-    public void removeItem(int position) {
-        if (position >= mItems.size()) return;
-
-        mItems.remove(position);
-        notifyItemRemoved(position);
-    }
-
 
     @Override
     public ProductItemHolder onCreateViewHolder(ViewGroup container, int viewType) {
@@ -93,8 +75,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductI
 
     private void onItemHolderClick(ProductItemHolder itemHolder) {
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(null, itemHolder.itemView,
-                    itemHolder.getPosition(), itemHolder.getItemId());
+            mOnItemClickListener.onItemClick(null, itemHolder.itemView, itemHolder.getPosition(), itemHolder.getItemId());
         }
     }
 
@@ -117,7 +98,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductI
 
         public ProductItemHolder(View itemView, ProductAdapter adapter) {
             super(itemView);
-
             mTitle = (TextView) itemView.findViewById(R.id.text_shop_title);
             mChefName = (TextView) itemView.findViewById(R.id.chef_name);
             mImageView = (ImageView) itemView.findViewById(R.id.product_thumb);

@@ -163,7 +163,6 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
             String address = product.getMember().getAddress().getCity() + "-" + product.getMember().getAddress().getCountry();
             i.putExtra(Constants.MEMBER_ADDRESS_BUNDLE_KEY, address);
         }
-        //startActivity(i);
         startActivityForResult(i, Constants.EDIT_PRODUCT_REQUEST_CODE);
     }
 
@@ -171,12 +170,10 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
     public void onButtonPressed() {
         Intent i = new Intent(this, EditProductCategoryChefActivity.class);
         startActivityForResult(i, Constants.EDIT_PRODUCT_REQUEST_CODE);
-        //startActivity(i);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
         return true;
     }
 

@@ -2,7 +2,6 @@ package com.homecooking.ykecomo.ui.activity.chefZone.productForm;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,16 +73,26 @@ public class EditImageProductChef extends BaseImageUpload {
     }
 
     protected void createProduct(){
+
         App.getRestClient()
                 .getPageService()
                 .createProduct(setParams())
                 .subscribe(new Action1<ApiResponse>() {
                     @Override
                     public void call(ApiResponse apiResponse) {
-                        Log.e("result", apiResponse.getProducts().toString());
+                        //Log.e("result", apiResponse.getProducts().toString());
+                        Product product = apiResponse.getProduct();
+                        if(apiResponse.getImages() != null && apiResponse.getImages().size() > 0) {
+                            Image image = apiResponse.getImages().get(0);
+                            product.setImgUrl(image.getFilename());
+                        }
+
+                        App.getProductsChef().add(product);
+                        Intent i = new Intent();
+                        setResult(RESULT_OK, i);
+                        finish();
                     }
                 });
-
     }
 
     protected ArrayList<Map<String, Object>> setParams(){

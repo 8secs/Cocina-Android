@@ -31,9 +31,9 @@ import com.homecooking.ykecomo.actions.location.DisplayTextOnViewAction;
 import com.homecooking.ykecomo.actions.location.SetLocationAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.ProductCategory;
-import com.homecooking.ykecomo.model.WishList;
 import com.homecooking.ykecomo.operators.ErrorHandler;
 import com.homecooking.ykecomo.operators.location.AddressToStringFunc;
 import com.homecooking.ykecomo.operators.member.SetAvatarAddressMapMember;
@@ -73,7 +73,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected ArrayList<MenuFragment> mFragments = new ArrayList<>();
 
     //USER ENVIRONMENT
-    private final String[] TITLES = { "Categories", "Chefs"/*, "Favorites"*/ };
+    private final String[] TITLES = { "Categories", "Chefs", "Favorites" };
     private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color};
     protected MenuFragment mProductCategoriesFragment;
     protected MenuFragment mChefsFragement;
@@ -107,7 +107,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     //LISTS DATA
     protected ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
     protected ArrayList<Member> mMenuChefList = new ArrayList<Member>();
-    protected ArrayList<WishList> mMenuWishList = new ArrayList<>();
+    protected ArrayList<Favorite> mMenuWishList = new ArrayList<>();
 
     public void setMenuList(ArrayList<ProductCategory> mMenuList) {
         this.mMenuList = mMenuList;
@@ -159,11 +159,11 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
             mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, this);
             mChefsFragement = MenuFragment.newInstance(mSelectedMode, this);
-            //mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, this);
 
             mFragments.add(mProductCategoriesFragment);
             mFragments.add(mChefsFragement);
-            //mFragments.add(mFavoriteFragment);
+            mFragments.add(mFavoriteFragment);
         }else{
             mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, this);
             mFragments.add(mProductsChefFragment);
@@ -304,6 +304,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     }
 
     protected void setActivityResult(int requestCode){
+        Log.e("setActivityResult", Integer.toString(requestCode));
         switch (requestCode){
             case Constants.LOGIN_REQUEST_CODE:
                 App.setMemberPrefs();
