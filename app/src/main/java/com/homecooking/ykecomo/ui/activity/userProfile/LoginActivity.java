@@ -25,6 +25,7 @@ import com.homecooking.ykecomo.actions.member.LoginFbMemberAction;
 import com.homecooking.ykecomo.actions.member.LoginMemberAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Auth;
 import com.homecooking.ykecomo.model.Image;
@@ -179,14 +180,19 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     }
 
     private void login(){
-        mLoginObservable = App.getRestClient()
-                .getPageService()
-                .loginUser(mUserNameEditText.getText().toString(),
-                        mPasswordEditText.getText().toString());
+        if(Utility.isNetworkAvailable(this)){
+            mLoginObservable = App.getRestClient()
+                    .getPageService()
+                    .loginUser(mUserNameEditText.getText().toString(),
+                            mPasswordEditText.getText().toString());
 
-        mLoginSubscription = AndroidObservable.bindActivity(this, mLoginObservable)
-                .flatMap(new LoginMemberFunc(this))
-                .subscribe(new LoginMemberAction(this), new ErrorHandler());
+            mLoginSubscription = AndroidObservable.bindActivity(this, mLoginObservable)
+                    .flatMap(new LoginMemberFunc(this))
+                    .subscribe(new LoginMemberAction(this), new ErrorHandler());
+        }else{
+            Log.e("isNetworkAvailable", "Sin conexion");
+        }
+
     }
 
     private void getFbUser(){
@@ -203,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
             Member member = mMembers.get(0);
             member.setAvatarFilename(mImages.get(0).getFilename());
             member.setAddress(mAddresses.get(0));
-            member.setAddressStr(App.getMemberAddressStr(member));
+            member.setAddressStr(Utility.getMemberAddressStr(member));
             Session session = Session.getActiveSession();
             if(session.isOpened()) session.close();
             sendBackToActivity(member);
@@ -322,7 +328,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void sendBackToActivity(Member member){
 
         App.setMember(member);
-        App.setMemberPrefs();
+        Utility.setMemberPrefs();
         Intent returnIntent = new Intent();
         setResult(RESULT_OK, returnIntent);
         finish();

@@ -13,6 +13,7 @@ import com.homecooking.ykecomo.actions.product.GetProductCategoryAction;
 import com.homecooking.ykecomo.actions.product.GetProductCategoryOnNext;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Image;
@@ -67,7 +68,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
         mSelectedMode = Constants.USER_ENVIRONMENT_MODE;
         setupUI(savedInstanceState);
-        App.setPrefUserEnvironment(Constants.USER_ENVIRONMENT_MODE);
+        Utility.setPrefUserEnvironment(Constants.USER_ENVIRONMENT_MODE);
     }
 
     @Override
@@ -90,17 +91,22 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected void getProductCategories(){
         mSelctedView = PRODUCT_CATEGORIES_VIEW;
         if(mMenuList.size() > 0) mMenuList.removeAll(mMenuList);
-        App.getRestClient()
-                .getPageService()
-                .getCategories()
-                .flatMap(new GetProductCategoriesFunc(this))
-                .flatMap(new GetImageObservableProductCategoryFunc())
-                .flatMap(new GetImageProductGategoryFunc())
-                .map(new SetImageProductCategoryFunc(this))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .cache()
-                .subscribe(new GetProductCategoryOnNext(), new ErrorHandler(), new GetProductCategoryAction(this));
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
+            showProgress(false);
+        }else{
+            App.getRestClient()
+                    .getPageService()
+                    .getCategories()
+                    .flatMap(new GetProductCategoriesFunc(this))
+                    .flatMap(new GetImageObservableProductCategoryFunc())
+                    .flatMap(new GetImageProductGategoryFunc())
+                    .map(new SetImageProductCategoryFunc(this))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .cache()
+                    .subscribe(new GetProductCategoryOnNext(), new ErrorHandler(), new GetProductCategoryAction(this));
+        }
     }
 
     @Override
@@ -111,79 +117,86 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
          * TODO: Filtrar chefs por localizacion del usuario.
          *      Queda pendiente pillar la direccion del chef y compararla con la ubicacion del usuario.
          */
-        App.getRestClient()
-                .getPageService()
-                .getChefGroup(4)
-                .map(new Func1<ApiResponse, ArrayList<Member>>() {
-                    @Override
-                    public ArrayList<Member> call(ApiResponse apiResponse) {
-                        ArrayList<Member> members = apiResponse.getMembers();
-                        for (Member member : members) {
-                            if (member.getProducts() != null && member.getDefaultShippingAddress() != null) {
-                                mMenuChefList.add(member);
-                            }
-                        }
-                        return mMenuChefList;
-                    }
-                })
-                .flatMap(new Func1<ArrayList<Member>, Observable<Member>>() {
-                    @Override
-                    public Observable<Member> call(ArrayList<Member> list) {
-                        return Observable.from(mMenuChefList);
-                    }
-                })
-                .flatMap(new Func1<Member, Observable<ApiResponse>>() {
-                    @Override
-                    public Observable<ApiResponse> call(Member member) {
-                        Observable<ApiResponse> observable = App.getRestClient()
-                                .getPageService()
-                                .getMemberAddress(Integer.toString(member.getId()));
-                        return observable;
-                    }
-                })
-                .map(new Func1<ApiResponse, Member>() {
-                    @Override
-                    public Member call(ApiResponse o) {
-                        Address a = o.getAddresses().get(0);
-                        Member member = setAddressToChef(a);
-                        return member;
-                    }
-                })
-                .flatMap(new Func1<Member, Observable<ApiResponse>>() {
-                    @Override
-                    public Observable<ApiResponse> call(Member member) {
-                        if (member.getAvatar() != null) {
-                            Observable observable = App.getRestClient()
-                                    .getPageService()
-                                    .getImage(Integer.parseInt(member.getAvatar()));
-                            return observable;
-                        } else {
-                            Image image = new Image();
-                            image.setFilename(Constants.DEFAULT_AVATAR_CHEF);
-                            ApiResponse response = new ApiResponse();
-                            response.setImage(image);
-                            return Observable.just(response);
-                        }
 
-                    }
-                })
-                .map(new Func1<ApiResponse, Member>() {
-                    @Override
-                    public Member call(ApiResponse apiResponse) {
-                        Image image = new Image();
-                        if (apiResponse.getImages() != null) {
-                            image = apiResponse.getImages().get(0);
-                        } else if (apiResponse.getImage() != null) {
-                            image = apiResponse.getImage();
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
+            showProgress(false);
+        }else{
+            App.getRestClient()
+                    .getPageService()
+                    .getChefGroup(4)
+                    .map(new Func1<ApiResponse, ArrayList<Member>>() {
+                        @Override
+                        public ArrayList<Member> call(ApiResponse apiResponse) {
+                            ArrayList<Member> members = apiResponse.getMembers();
+                            for (Member member : members) {
+                                if (member.getProducts() != null && member.getDefaultShippingAddress() != null) {
+                                    mMenuChefList.add(member);
+                                }
+                            }
+                            return mMenuChefList;
                         }
-                        Member member = setAvatarToChef(image);
-                        return member;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .cache()
-                .subscribe(new GetAvatarMemberOnNext(), new ErrorHandler(), new GetAvatarMemberAction(this));
+                    })
+                    .flatMap(new Func1<ArrayList<Member>, Observable<Member>>() {
+                        @Override
+                        public Observable<Member> call(ArrayList<Member> list) {
+                            return Observable.from(mMenuChefList);
+                        }
+                    })
+                    .flatMap(new Func1<Member, Observable<ApiResponse>>() {
+                        @Override
+                        public Observable<ApiResponse> call(Member member) {
+                            Observable<ApiResponse> observable = App.getRestClient()
+                                    .getPageService()
+                                    .getMemberAddress(Integer.toString(member.getId()));
+                            return observable;
+                        }
+                    })
+                    .map(new Func1<ApiResponse, Member>() {
+                        @Override
+                        public Member call(ApiResponse o) {
+                            Address a = o.getAddresses().get(0);
+                            Member member = setAddressToChef(a);
+                            return member;
+                        }
+                    })
+                    .flatMap(new Func1<Member, Observable<ApiResponse>>() {
+                        @Override
+                        public Observable<ApiResponse> call(Member member) {
+                            if (member.getAvatar() != null) {
+                                Observable observable = App.getRestClient()
+                                        .getPageService()
+                                        .getImage(Integer.parseInt(member.getAvatar()));
+                                return observable;
+                            } else {
+                                Image image = new Image();
+                                image.setFilename(Constants.DEFAULT_AVATAR_CHEF);
+                                ApiResponse response = new ApiResponse();
+                                response.setImage(image);
+                                return Observable.just(response);
+                            }
+
+                        }
+                    })
+                    .map(new Func1<ApiResponse, Member>() {
+                        @Override
+                        public Member call(ApiResponse apiResponse) {
+                            Image image = new Image();
+                            if (apiResponse.getImages() != null) {
+                                image = apiResponse.getImages().get(0);
+                            } else if (apiResponse.getImage() != null) {
+                                image = apiResponse.getImage();
+                            }
+                            Member member = setAvatarToChef(image);
+                            return member;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .cache()
+                    .subscribe(new GetAvatarMemberOnNext(), new ErrorHandler(), new GetAvatarMemberAction(this));
+        }
+
 
     }
 
@@ -191,82 +204,99 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected void getFavorites(){
         mSelctedView = FAVORITE_VIEW;
         if(mMenuWishList.size() > 0) mMenuWishList.removeAll(mMenuWishList);
-
-        App.getRestClient()
-                .getPageService()
-                .getWishListUser(App.getMember().getId())
-                .flatMap(new Func1<ApiResponse, Observable<WishList>>() {
-                    @Override
-                    public Observable<WishList> call(ApiResponse apiResponse) {
-                        wishLists = apiResponse.getWishLists();
-                        return Observable.from(wishLists);
-                    }
-                })
-                .flatMap(new Func1<WishList, Observable<ApiResponse>>() {
-                    @Override
-                    public Observable<ApiResponse> call(WishList wishList) {
-                        Observable<ApiResponse> observable = App.getRestClient()
-                                .getPageService()
-                                .getWishListItems(wishList.getId());
-                        return observable;
-                    }
-                })
-                .flatMap(new Func1<ApiResponse, Observable<ApiResponse>>() {
-                    @Override
-                    public Observable<ApiResponse> call(ApiResponse apiResponse) {
-                        WishListItem item = apiResponse.getWishListItems().get(0);
-                        wishListItems.add(item);
-                        Observable<ApiResponse> ob;
-                        if (item.getBuyableClassName().equals("Product")) {
-                            ob = App.getRestClient()
-                                    .getPageService()
-                                    .getProductDetail(Integer.parseInt(item.getBuyableID()));
-                            return ob;
-                        } else if (item.getBuyableClassName().equals("Member")) {
-                            ob = App.getRestClient()
-                                    .getPageService()
-                                    .getMember(item.getBuyableID());
-                            return ob;
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
+            showProgress(false);
+        }else{
+            App.getRestClient()
+                    .getPageService()
+                    .getWishListUser(App.getMember().getId())
+                    .flatMap(new Func1<ApiResponse, Observable<WishList>>() {
+                        @Override
+                        public Observable<WishList> call(ApiResponse apiResponse) {
+                            wishLists = apiResponse.getWishLists();
+                            return Observable.from(wishLists);
                         }
-                        return null;
-                    }
-                })
-                .map(new Func1<ApiResponse, Favorite>() {
-                    @Override
-                    public Favorite call(ApiResponse apiResponse) {
-                        Favorite favorite = new Favorite();
-                        if (apiResponse.getMembers() != null && apiResponse.getMembers().size() > 0)
-                            favorite.setMember(apiResponse.getMembers().get(0));
-                        if (apiResponse.getProducts() != null && apiResponse.getProducts().size() > 0)
-                            favorite.setProduct(apiResponse.getProducts().get(0));
-                        if (apiResponse.getImages() != null && apiResponse.getImages().size() > 0)
-                            favorite.setImage(apiResponse.getImages().get(0));
-                        if (apiResponse.getAddresses() != null && apiResponse.getAddresses().size() > 0)
-                            favorite.setAddress(apiResponse.getAddresses().get(0));
+                    })
+                    .flatMap(new Func1<WishList, Observable<ApiResponse>>() {
+                        @Override
+                        public Observable<ApiResponse> call(WishList wishList) {
+                            Observable<ApiResponse> observable = App.getRestClient()
+                                    .getPageService()
+                                    .getWishListItems(wishList.getId());
+                            return observable;
+                        }
+                    })
+                    .flatMap(new Func1<ApiResponse, Observable<ApiResponse>>() {
+                        @Override
+                        public Observable<ApiResponse> call(ApiResponse apiResponse) {
+                            WishListItem item = apiResponse.getWishListItems().get(0);
+                            wishListItems.add(item);
+                            Observable<ApiResponse> ob;
+                            if (item.getBuyableClassName().equals("Product")) {
+                                ob = App.getRestClient()
+                                        .getPageService()
+                                        .getProductDetail(Integer.parseInt(item.getBuyableID()));
+                                return ob;
+                            } else if (item.getBuyableClassName().equals("Member")) {
+                                ob = App.getRestClient()
+                                        .getPageService()
+                                        .getMember(item.getBuyableID());
+                                return ob;
+                            }
+                            return null;
+                        }
+                    })
+                    .map(new Func1<ApiResponse, Favorite>() {
+                        @Override
+                        public Favorite call(ApiResponse apiResponse) {
+                            Favorite favorite = new Favorite();
+                            if (apiResponse.getMembers() != null && apiResponse.getMembers().size() > 0) {
+                                favorite.setMember(apiResponse.getMembers().get(0));
+                                for (WishListItem item : wishListItems) {
+                                    if (Integer.parseInt(item.getBuyableID()) == favorite.getMember().getId() && item.getBuyableClassName().equals("Member")) {
+                                        favorite.setClassName(item.getBuyableClassName());
+                                    }
+                                }
+                            }
+                            if (apiResponse.getProducts() != null && apiResponse.getProducts().size() > 0) {
+                                favorite.setProduct(apiResponse.getProducts().get(0));
+                                for (WishListItem item : wishListItems) {
+                                    if (Integer.parseInt(item.getBuyableID()) == favorite.getProduct().getID() && item.getBuyableClassName().equals("Product")) {
+                                        favorite.setClassName(item.getBuyableClassName());
+                                    }
+                                }
+                            }
+                            if (apiResponse.getImages() != null && apiResponse.getImages().size() > 0)
+                                favorite.setImage(apiResponse.getImages().get(0));
+                            if (apiResponse.getAddresses() != null && apiResponse.getAddresses().size() > 0)
+                                favorite.setAddress(apiResponse.getAddresses().get(0));
 
-                        return favorite;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .cache()
-                .subscribe(new Subscriber<Favorite>() {
-                    @Override
-                    public void onCompleted() {
-                        onWishlistComplete();
-                    }
+                            return favorite;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .cache()
+                    .subscribe(new Subscriber<Favorite>() {
+                        @Override
+                        public void onCompleted() {
+                            onWishlistComplete();
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(Favorite favorite) {
-                        favorite.setId(mMenuWishList.size() + 1);
-                        mMenuWishList.add(favorite);
-                    }
-                });
+                        @Override
+                        public void onNext(Favorite favorite) {
+                            favorite.setId(mMenuWishList.size() + 1);
+                            mMenuWishList.add(favorite);
+                        }
+                    });
+        }
+
     }
 
     private Member setAddressToChef(Address address){

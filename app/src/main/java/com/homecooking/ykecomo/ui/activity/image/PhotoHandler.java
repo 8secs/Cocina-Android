@@ -8,7 +8,7 @@ import android.hardware.Camera;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.homecooking.ykecomo.app.App;
+import com.homecooking.ykecomo.app.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,7 +71,7 @@ public class PhotoHandler implements Camera.PictureCallback {
             Toast.makeText(mContext, "No se ha podido guardar la imagen", Toast.LENGTH_SHORT).show();
         }
 
-        Bitmap result = App.decodeBitmapFromByteArray(data, parameters.getPictureSize().width, parameters.getPictureSize().height);
+        Bitmap result = Utility.decodeBitmapFromByteArray(data, parameters.getPictureSize().width, parameters.getPictureSize().height);
         //App.rotateBitmap(result);
         mPreview.setImageBitmap(result);
         //result = App.rotateBitmap(result);

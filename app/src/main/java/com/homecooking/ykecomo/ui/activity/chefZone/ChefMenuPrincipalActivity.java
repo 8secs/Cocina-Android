@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.rest.model.ApiResponse;
@@ -47,7 +48,7 @@ public class ChefMenuPrincipalActivity extends BaseMenuActivity {
 
         mSelectedMode = Constants.CHEF_ENVIROMENT_MODE;
         setupUI(savedInstanceState);
-        App.setPrefUserEnvironment(Constants.CHEF_ENVIROMENT_MODE);
+        Utility.setPrefUserEnvironment(Constants.CHEF_ENVIROMENT_MODE);
     }
 
     @Override

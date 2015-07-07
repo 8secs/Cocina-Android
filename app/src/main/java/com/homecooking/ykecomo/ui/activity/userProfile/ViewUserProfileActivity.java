@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.manuelpeinado.fadingactionbar.extras.actionbarcompat.FadingActionBarHelper;
 
 
@@ -112,14 +113,14 @@ public class ViewUserProfileActivity extends BaseUserProfileActivity {
 
         } else {
             if(App.getMember().getAvatarFilename() != null) url = Constants.BASE_URL.concat(App.getPref().getString(Constants.MEMBER_IMAGE, ""));
-            else url = App.getUserpicFbURL();
+            else url = Utility.getUserpicFbURL();
             getFacebookTxt().setText(getResources().getString(R.string.registro_en_facebook));
             getEmailVerified().setText(getResources().getString(R.string.email_verified));
 
             if(!App.getPref().getBoolean(Constants.MEMBER_HAS_ADDRESS, false))
                 getUserAddressTxt().setText(App.getPref().getString(Constants.MEMBER_CITY, "") + ", " + App.getPref().getString(Constants.MEMBER_COUNTRY, ""));
             else{
-                getUserAddressTxt().setText(App.getMemberAddressStr(App.getMember()));
+                getUserAddressTxt().setText(Utility.getMemberAddressStr(App.getMember()));
             }
         }
 

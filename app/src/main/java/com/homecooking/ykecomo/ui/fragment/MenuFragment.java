@@ -84,7 +84,7 @@ public class MenuFragment extends Fragment implements
     }
 
     public MenuFragment() {
-        // Required empty public constructor
+        super();
     }
 
     @Override
@@ -100,7 +100,6 @@ public class MenuFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.menu_fragment, container, false);
-
         return mRootView;
     }
 
@@ -118,10 +117,14 @@ public class MenuFragment extends Fragment implements
         mList.addItemDecoration(getItemDecoration());
         mList.setHasFixedSize(true);
 
-        mList.getItemAnimator().setAddDuration(1000);
+        /*final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
+        animator.setSupportsChangeAnimations(false);*/
+
+        /*mList.getItemAnimator().setAddDuration(1000);
         mList.getItemAnimator().setChangeDuration(1000);
         mList.getItemAnimator().setMoveDuration(1000);
-        mList.getItemAnimator().setRemoveDuration(1000);
+        mList.getItemAnimator().setRemoveDuration(1000);*/
+        //mList.setItemAnimator(animator);
         mRefreshLayout.setOnRefreshListener(this);
 
         mFab = (FloatingActionButton) mRootView.findViewById(R.id.fab);

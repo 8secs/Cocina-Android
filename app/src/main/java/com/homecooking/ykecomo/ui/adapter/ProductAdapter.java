@@ -93,6 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductI
         private TextView mPrice;
         private TextView mPortions;
         private TextView mCity;
+        private ImageView mFavoriteBtn;
 
         private ProductAdapter mAdapter;
 
@@ -104,6 +105,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductI
             mPrice = (TextView) itemView.findViewById(R.id.price_product);
             mPortions = (TextView) itemView.findViewById(R.id.text_portions);
             mCity = (TextView) itemView.findViewById(R.id.text_city);
+            mFavoriteBtn = (ImageView) itemView.findViewById(R.id.fab);
             itemView.setOnClickListener(this);
             mAdapter = adapter;
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.ui.activity.chefZone.ChefMenuPrincipalActivity;
 
 
@@ -26,8 +27,8 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent mainIntent;
                 if (App.isReady()) {
-                    App.setMemberFromPrefs();
-                    if(App.getUserEnvironmentFromPref() == Constants.USER_ENVIRONMENT_MODE) mainIntent = new Intent(SplashActivity.this, MenuPrincipalActivity.class);
+                    Utility.setMemberFromPrefs();
+                    if(Utility.getUserEnvironmentFromPref() == Constants.USER_ENVIRONMENT_MODE) mainIntent = new Intent(SplashActivity.this, MenuPrincipalActivity.class);
                     else mainIntent = new Intent(SplashActivity.this, ChefMenuPrincipalActivity.class);
                 } else {
                     mainIntent = new Intent(SplashActivity.this, InitHelpActivity.class);

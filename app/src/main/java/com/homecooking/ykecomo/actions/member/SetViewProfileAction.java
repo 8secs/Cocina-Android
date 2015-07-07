@@ -5,6 +5,7 @@ import android.text.Html;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
@@ -28,7 +29,7 @@ public class SetViewProfileAction implements Action1<Member> {
                 this.mActivity.getEmailVerified().setText(this.mActivity.getResources().getString(R.string.email_no_verified));
 
             if (member.getAddress() != null) {
-                this.mActivity.getUserAddressTxt().setText(App.getMemberAddressStr(member));
+                this.mActivity.getUserAddressTxt().setText(Utility.getMemberAddressStr(member));
             }
 
         } else {
@@ -36,7 +37,7 @@ public class SetViewProfileAction implements Action1<Member> {
             this.mActivity.getFacebookTxt().setText(this.mActivity.getResources().getString(R.string.registro_en_facebook));
             this.mActivity.getEmailVerified().setText(this.mActivity.getResources().getString(R.string.email_verified));
             if (member.getAddress() != null) {
-                this.mActivity.getUserAddressTxt().setText(App.getMemberAddressStr(member));
+                this.mActivity.getUserAddressTxt().setText(Utility.getMemberAddressStr(member));
             } else {
                 this.mActivity.getUserAddressTxt().setText(App.getFbLocation());
             }

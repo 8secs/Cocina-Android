@@ -3,6 +3,7 @@ package com.homecooking.ykecomo.ui.activity.userProfile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.actions.member.CreateMemberAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.operators.member.CheckMemberEmailFunc;
 import com.homecooking.ykecomo.operators.member.CreateMemberFunc;
@@ -81,19 +83,21 @@ public class SignupActivity extends AppCompatActivity implements Validator.Valid
     }
 
     private void signIn(){
+        if(Utility.isNetworkAvailable(this)){
+            mUserObservable = App.getRestClient()
+                    .getPageService()
+                    .getMemberByEmail(mEmailTxt.getText().toString());
 
-        mUserObservable = App.getRestClient()
-                .getPageService()
-                .getMemberByEmail(mEmailTxt.getText().toString());
-
-        mUserSubscription = AndroidObservable.bindActivity(this, mUserObservable)
-                .map(new CheckMemberEmailFunc(setParams(), getResources().getString(R.string.email_on_bbdd)))
-                .flatMap(new CreateMemberFunc())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .cache()
-                .subscribe(new CreateMemberAction(this));
-
+            mUserSubscription = AndroidObservable.bindActivity(this, mUserObservable)
+                    .map(new CheckMemberEmailFunc(setParams(), getResources().getString(R.string.email_on_bbdd)))
+                    .flatMap(new CreateMemberFunc())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .cache()
+                    .subscribe(new CreateMemberAction(this));
+        }else{
+            Log.e("isNetworkavailable", "Sin conexion");
+        }
     }
 
     private ArrayList<Hashtable<String, String>> setParams(){

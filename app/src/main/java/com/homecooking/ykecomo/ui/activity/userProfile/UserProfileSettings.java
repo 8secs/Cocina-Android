@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.rest.model.ApiResponse;
 import com.homecooking.ykecomo.ui.preferences.ImagePreference;
@@ -74,7 +75,7 @@ public class UserProfileSettings extends BaseUserProfileActivity {
                 imageURL = mKeys.get(Constants.MEMBER_IMAGE).toString();
                 imageURL = Constants.BASE_URL.concat(imageURL);
             }else{
-                imageURL = App.getUserpicFbURL();
+                imageURL = Utility.getUserpicFbURL();
             }
             imagePref.setUrl(imageURL);
 
@@ -218,8 +219,8 @@ public class UserProfileSettings extends BaseUserProfileActivity {
                         public void call(ApiResponse apiResponse) {
                             App.setMember(apiResponse.getMember());
                             if(apiResponse.getAddresses().size() > 0) App.getMember().setAddress(apiResponse.getAddresses().get(0));
-                            App.getMember().setAddressStr(App.getMemberAddressStr(App.getMember()));
-                            App.setMemberPrefs();
+                            App.getMember().setAddressStr(Utility.getMemberAddressStr(App.getMember()));
+                            Utility.setMemberPrefs();
                             updateUI();
                         }
                     });

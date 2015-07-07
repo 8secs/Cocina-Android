@@ -31,6 +31,7 @@ import com.homecooking.ykecomo.actions.location.DisplayTextOnViewAction;
 import com.homecooking.ykecomo.actions.location.SetLocationAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.ProductCategory;
@@ -73,11 +74,13 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected ArrayList<MenuFragment> mFragments = new ArrayList<>();
 
     //USER ENVIRONMENT
-    private final String[] TITLES = { "Categories", "Chefs", "Favorites" };
-    private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color};
+    private final String[] TITLES = { "Categories", "Chefs", "Favorites", "Messages", "ShoppingCart" };
+    private final int[] ICONS = {R.mipmap.ic_launcher, R.mipmap.ic_chef, R.mipmap.ic_favorite_color, R.mipmap.ic_email, R.mipmap.ic_shopping_cart};
     protected MenuFragment mProductCategoriesFragment;
     protected MenuFragment mChefsFragement;
     protected MenuFragment mFavoriteFragment;
+    protected MenuFragment mMessageFragment;
+    protected MenuFragment mShoppingFragment;
 
     //CHEF ENVIROMENT
     private final String[] TITLES_CHEF = { "Products"};
@@ -108,6 +111,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
     protected ArrayList<Member> mMenuChefList = new ArrayList<Member>();
     protected ArrayList<Favorite> mMenuWishList = new ArrayList<>();
+    protected ArrayList<?> mMenuMessageList = new ArrayList<>();
 
     public void setMenuList(ArrayList<ProductCategory> mMenuList) {
         this.mMenuList = mMenuList;
@@ -160,10 +164,14 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
             mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, this);
             mChefsFragement = MenuFragment.newInstance(mSelectedMode, this);
             mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mMessageFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mShoppingFragment = MenuFragment.newInstance(mSelectedMode, this);
 
             mFragments.add(mProductCategoriesFragment);
             mFragments.add(mChefsFragement);
             mFragments.add(mFavoriteFragment);
+            mFragments.add(mMessageFragment);
+            mFragments.add(mShoppingFragment);
         }else{
             mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, this);
             mFragments.add(mProductsChefFragment);
@@ -307,7 +315,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
         Log.e("setActivityResult", Integer.toString(requestCode));
         switch (requestCode){
             case Constants.LOGIN_REQUEST_CODE:
-                App.setMemberPrefs();
+                Utility.setMemberPrefs();
                 if(App.getMember().getFacebookUID() == null){
                     App.setIsFbMember(false);
                     getAvatarLoginUser();
@@ -359,27 +367,31 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     }
 
     protected void getLoginUser(){
-        if(App.getMember() != null){
-            if(App.getMember().getId() > 0){
-                App.getRestClient()
-                        .getPageService()
-                        .getMember(Integer.toString(App.getMember().getId()))
-                        .map(new SetAvatarAddressMapMember())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .cache()
-                        .subscribe(new Action1<Member>() {
-                            @Override
-                            public void call(Member member) {
-                                App.setMember(member);
-                                App.setMemberPrefs();
-                                getAvatarLoginUser();
-                            }
-                        });
-            }
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
         }else{
-            App.setMemberFromPrefs();
-            getLoginUser();
+            if(App.getMember() != null){
+                if(App.getMember().getId() > 0){
+                    App.getRestClient()
+                            .getPageService()
+                            .getMember(Integer.toString(App.getMember().getId()))
+                            .map(new SetAvatarAddressMapMember())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .cache()
+                            .subscribe(new Action1<Member>() {
+                                @Override
+                                public void call(Member member) {
+                                    App.setMember(member);
+                                    Utility.setMemberPrefs();
+                                    getAvatarLoginUser();
+                                }
+                            });
+                }
+            }else{
+                Utility.setMemberFromPrefs();
+                getLoginUser();
+            }
         }
     }
 
@@ -392,7 +404,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
             if(App.getMember().getAvatarFilename() != null)
                 imageURL = Constants.BASE_URL.concat(App.getMember().getAvatarFilename());
         } else {
-            if(App.isIsFbMember()) imageURL = App.getUserpicFbURL();
+            if(App.isIsFbMember()) imageURL = Utility.getUserpicFbURL();
         }
         if(imageURL.length() > 0){
             mProfile.setIcon(imageURL);
@@ -452,9 +464,11 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     public void onButtonPressed() { }
 
     protected void unSubscribeLocation(){
-        updatableLocationSubscription.unsubscribe();
-        addressSubscription.unsubscribe();
-        lastKnownLocationSubscription.unsubscribe();
+        if(Utility.isNetworkAvailable(this)){
+            updatableLocationSubscription.unsubscribe();
+            addressSubscription.unsubscribe();
+            lastKnownLocationSubscription.unsubscribe();
+        }
     }
 
     protected void showProgress(boolean bool){
@@ -554,7 +568,11 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     @Override
     protected void onStart(){
         super.onStart();
-        createUserLocationSubscription();
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
+        }else{
+            createUserLocationSubscription();
+        }
     }
 
     @Override

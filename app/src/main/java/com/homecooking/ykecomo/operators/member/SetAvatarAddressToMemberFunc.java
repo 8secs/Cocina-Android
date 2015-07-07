@@ -2,6 +2,7 @@ package com.homecooking.ykecomo.operators.member;
 
 
 import com.homecooking.ykecomo.app.App;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.ui.activity.userProfile.BaseUserProfileActivity;
 
@@ -19,7 +20,7 @@ public class SetAvatarAddressToMemberFunc implements Func1<Member, Observable<Me
         if(!App.isIsFbMember()){
             member.setAvatarFilename(mActivity.getAvatar().getFilename());
             member.setAddress(mActivity.getAddress());
-            member.setAddressStr(App.getMemberAddressStr(member));
+            member.setAddressStr(Utility.getMemberAddressStr(member));
         }
         return Observable.just(member);
     }

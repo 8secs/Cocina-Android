@@ -10,6 +10,7 @@ import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.actions.member.SetViewProfileAction;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.operators.image.FillMemberFunc;
@@ -130,7 +131,7 @@ public class BaseUserProfileActivity extends BaseImageUpload {
                         setMember(member);
                         App.setMember(getMember());
                         mImageURL = Constants.BASE_URL.concat(getMember().getAvatarFilename());
-                        App.setMemberPrefs();
+                        Utility.setMemberPrefs();
                     }
                 });
     }

@@ -1,7 +1,19 @@
 package com.homecooking.ykecomo.app;
 
 
-public class Constants {
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public abstract class Constants {
+
+    @IntDef({USER_ENVIRONMENT_MODE, CHEF_ENVIROMENT_MODE})
+    @Retention(RetentionPolicy.SOURCE)
+    public abstract @interface EnviromentMode{}
+
+    @EnviromentMode public abstract int getEnviromentMode();
+    public abstract void setEnviromentMode(@EnviromentMode int enviromentMode);
 
     public static String IS_FIRST_TIME_STR = "is_first_time";
     public static String FB_NAMESPACE = "pruebamisplatos";
@@ -26,8 +38,8 @@ public class Constants {
     public static int EDIT_IMAGE_MEMBER_PROFILE = 5;
 
     public static String USER_ENVIRONMENT = "user_environment";
-    public static int USER_ENVIRONMENT_MODE = 1;
-    public static int CHEF_ENVIROMENT_MODE = 2;
+    public static final int USER_ENVIRONMENT_MODE = 1;
+    public static final int CHEF_ENVIROMENT_MODE = 2;
 
 
     /**

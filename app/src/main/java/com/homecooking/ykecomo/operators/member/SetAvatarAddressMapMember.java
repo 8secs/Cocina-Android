@@ -2,6 +2,7 @@ package com.homecooking.ykecomo.operators.member;
 
 
 import com.homecooking.ykecomo.app.App;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
@@ -19,7 +20,7 @@ public class SetAvatarAddressMapMember implements Func1<ApiResponse, Member> {
         if(apiResponse.getAddresses().size() > 0){
             Address address = apiResponse.getAddresses().get(0);
             member.setAddress(address);
-            member.setAddressStr(App.getMemberAddressStr(member));
+            member.setAddressStr(Utility.getMemberAddressStr(member));
         }
         member.setAvatarFilename(image.getFilename());
         return member;

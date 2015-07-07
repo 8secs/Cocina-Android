@@ -14,6 +14,7 @@ import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.actions.product.SetProductOnNext;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
 import com.homecooking.ykecomo.model.Product;
@@ -197,7 +198,7 @@ public class EditProductChefActivity extends AppCompatActivity {
 
         if(mCategories != null && mProduct != null) setupCatetoryCard();
 
-        App.updateProductChef(mProduct);
+        Utility.updateProductChef(mProduct);
     }
 
     protected void updateProduct(Map<String, Object> map){

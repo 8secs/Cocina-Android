@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import com.homecooking.ykecomo.R;
 import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -99,7 +100,7 @@ public class AddressMember extends AppCompatActivity implements AdapterView.OnIt
         mSpinnerCountry.setAdapter(adapter);
         mSpinnerCountry.setOnItemSelectedListener(this);
 
-        mSpinnerCountry.setSelection(countries.indexOf(App.getCountryName(contryCode, "es")));
+        mSpinnerCountry.setSelection(countries.indexOf(Utility.getCountryName(contryCode, "es")));
 
 
     }
@@ -107,7 +108,7 @@ public class AddressMember extends AppCompatActivity implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
         String selected = parent.getItemAtPosition(pos).toString();
-        mCountryCode = App.getCountryCode(selected, "es");
+        mCountryCode = Utility.getCountryCode(selected, "es");
         //Log.e("mCountryCode", mCountryCode);
     }
 

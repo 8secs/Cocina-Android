@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.homecooking.ykecomo.R;
-import com.homecooking.ykecomo.app.App;
 import com.homecooking.ykecomo.app.Constants;
+import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Image;
 import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
@@ -68,7 +68,7 @@ public class BaseImageUpload extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
-                mBitmap = App.decodeBitmapFromFile(data.getExtras().getString("filename"), 1024, 1024);
+                mBitmap = Utility.decodeBitmapFromFile(data.getExtras().getString("filename"), 1024, 1024);
                 Uri uri = getImageUri(BaseImageUpload.this, mBitmap);
                 beginCrop(uri);
             } else if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
