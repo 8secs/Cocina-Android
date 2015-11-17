@@ -59,6 +59,8 @@ public class MenuFragment extends Fragment implements
     private FavoriteAdapter mFavoriteAdapter;
     private ArrayList<Favorite> mMenuFavoriteList = new ArrayList<>();
 
+
+
     private ProductAdapter mProductAdapter;
     private ArrayList<Product> mMenuProductList = new ArrayList<>();
 

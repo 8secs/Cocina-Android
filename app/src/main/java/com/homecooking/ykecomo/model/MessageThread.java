@@ -21,8 +21,8 @@ public class MessageThread {
     @SerializedName("isReadOnly")
     public String isReadOnly;
 
-    @SerializedName("chef")
-    public String chef;
+    @SerializedName("order")
+    public String order;
 
     public int getId() {
         return id;
@@ -48,11 +48,11 @@ public class MessageThread {
         this.isReadOnly = isReadOnly;
     }
 
-    public String getChef() {
-        return chef;
+    public String getOrder() {
+        return order;
     }
 
-    public void setChef(String chef) {
-        this.chef = chef;
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

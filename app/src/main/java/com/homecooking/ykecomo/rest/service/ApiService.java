@@ -98,5 +98,15 @@ public interface ApiService {
 
     @GET("/api/WishListItem")
     Observable<ApiResponse> getWishListItems(@Query("WishListID") int WishListID);
+
+
+    @GET("/api/Order")
+    Observable<ApiResponse> getUserOrders(@Query("MemberID") int MemberID);
+
+    @GET("/api/MessageThread")
+    Observable<ApiResponse> getMessageThreadList(@Query("OrderID") int OrderID);
+
+    @GET("/api/Message")
+    Observable<ApiResponse> getMessagesList(@Query("AuthorID") int ID);
     
 }

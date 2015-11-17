@@ -18,6 +18,8 @@ import com.homecooking.ykecomo.model.Address;
 import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
+import com.homecooking.ykecomo.model.MessageThread;
+import com.homecooking.ykecomo.model.Order;
 import com.homecooking.ykecomo.model.WishList;
 import com.homecooking.ykecomo.model.WishListItem;
 import com.homecooking.ykecomo.operators.ErrorHandler;
@@ -49,6 +51,7 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
     protected static int PRODUCT_CATEGORIES_VIEW = 0;
     protected static int CHEF_USER_VIEW = 1;
     protected static int FAVORITE_VIEW = 2;
+    protected static int MESSAGE_VIEW = 3;
 
     protected ArrayList<WishList> wishLists;
     protected ArrayList<WishListItem> wishListItems = new ArrayList<>();
@@ -299,6 +302,72 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
 
     }
 
+    @Override
+    protected void getMessageThreads(){
+        mSelectedMode = MESSAGE_VIEW;
+        if(mMessageThreadList.size() > 0) mMessageThreadList.removeAll(mMessageThreadList);
+        if(!Utility.isNetworkAvailable(this)){
+            Log.e("isNetworkConnection", "no hay conexión");
+            showProgress(false);
+        }else{
+            App.getRestClient()
+                    .getPageService().getUserOrders(App.getMember().getId())
+                    .flatMap(new Func1<ApiResponse, Observable<Order>>() {
+                        @Override
+                        public Observable<Order> call(ApiResponse apiResponse) {
+                            mOrderLists = apiResponse.getOrders();
+                            //mOrderItemLists = apiResponse.getOrderItems();
+                            return Observable.from(mOrderLists);
+                        }
+                    })
+                    /*.map(new Func1<Order, Order>() {
+                        @Override
+                        public Order call(Order order) {
+                            ArrayList<OrderItem> items = new ArrayList<OrderItem>();
+                            for(OrderItem item : mOrderItemLists){
+                                if(item.getOrder() == order.getId()){
+                                    items.add(item);
+                                }
+                            }
+                            order.setItems(items);
+                            return order;
+                        }
+                    })*/
+                    .flatMap(new Func1<Order, Observable<ApiResponse>>() {
+                        @Override
+                        public Observable<ApiResponse> call(Order order) {
+                            Observable<ApiResponse> observable = App.getRestClient()
+                                    .getPageService()
+                                    .getMessageThreadList(order.getId());
+                            return observable;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .cache()
+                    .subscribe(new Subscriber<ApiResponse>() {
+                        @Override
+                        public void onCompleted() {
+                            onMessagesComplete();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ApiResponse apiResponse) {
+                            Log.e("onNext", apiResponse.getMessageThreads().toString());
+                            ArrayList<MessageThread> array = apiResponse.getMessageThreads();
+                            for (MessageThread thread : array) {
+                                mMessageThreadList.add(thread);
+                            }
+                        }
+                    });
+        }
+    }
+
     private Member setAddressToChef(Address address){
         if(mMenuChefList.size() > 0){
             for(Member member : mMenuChefList){
@@ -357,6 +426,11 @@ public class MenuPrincipalActivity  extends BaseMenuActivity {
             mFavoriteFragment.setMenuFavoriteList(mMenuWishList);
             mFavoriteFragment.onFavoriteComplete();
         }
+    }
+
+    public void onMessagesComplete(){
+        showProgress(false);
+        Log.e("messageThreads", ""+mMessageThreadList.size());
     }
 
     private Drawer.OnDrawerItemClickListener onDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {

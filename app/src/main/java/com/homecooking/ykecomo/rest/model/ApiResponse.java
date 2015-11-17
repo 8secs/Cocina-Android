@@ -7,6 +7,10 @@ import com.homecooking.ykecomo.model.ChefReview;
 import com.homecooking.ykecomo.model.Group;
 import com.homecooking.ykecomo.model.Image;
 import com.homecooking.ykecomo.model.Member;
+import com.homecooking.ykecomo.model.Message;
+import com.homecooking.ykecomo.model.MessageThread;
+import com.homecooking.ykecomo.model.Order;
+import com.homecooking.ykecomo.model.OrderItem;
 import com.homecooking.ykecomo.model.Page;
 import com.homecooking.ykecomo.model.Product;
 import com.homecooking.ykecomo.model.ProductCategory;
@@ -62,6 +66,20 @@ public class ApiResponse {
 
     @SerializedName("wishListItems")
     public ArrayList<WishListItem> wishListItems;
+
+    @SerializedName("messageThreads")
+    public ArrayList<MessageThread> messageThreads;
+
+    @SerializedName("messages")
+    public ArrayList<Message> messages;
+
+    @SerializedName("orders")
+    public ArrayList<Order> orders;
+
+    @SerializedName("orderItems")
+    protected ArrayList<OrderItem> orderItems;
+
+
     
     protected Auth auth;
 
@@ -110,10 +128,20 @@ public class ApiResponse {
     public Member getMember() { return member; }
 
     public String getMessage() { return message; }
+
+    public ArrayList<MessageThread> getMessageThreads(){ return messageThreads; }
+
+    public ArrayList<Message> getMessages() { return messages; }
+
+    public ArrayList<Order> getOrders() { return orders; }
+
+    public ArrayList<OrderItem> getOrderItems() { return orderItems; }
     
     public Auth getAuth () { return auth; }
     
     public void setAuth(Auth auth){ this.auth = auth; }
+
+
 
     public void setMessage(String message) { this.message = message; }
 
@@ -128,4 +156,12 @@ public class ApiResponse {
     public void setWishLists(ArrayList<WishList> wishLists) { this.wishLists = wishLists; }
 
     public void setWishListItems(ArrayList<WishListItem> items) { this.wishListItems = items; }
+
+    public void setMessageThreads(ArrayList<MessageThread> threads) { this.messageThreads = threads; }
+
+    public void setMessages(ArrayList<Message> messages) { this.messages = messages; }
+
+    public void setOrders(ArrayList<Order> orders) { this.orders = orders; }
+
+    public void setOrderItems(ArrayList<OrderItem> orderItems) { this.orderItems = orderItems; }
 }

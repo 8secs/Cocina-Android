@@ -34,6 +34,10 @@ import com.homecooking.ykecomo.app.Constants;
 import com.homecooking.ykecomo.app.Utility;
 import com.homecooking.ykecomo.model.Favorite;
 import com.homecooking.ykecomo.model.Member;
+import com.homecooking.ykecomo.model.Message;
+import com.homecooking.ykecomo.model.MessageThread;
+import com.homecooking.ykecomo.model.Order;
+import com.homecooking.ykecomo.model.OrderItem;
 import com.homecooking.ykecomo.model.ProductCategory;
 import com.homecooking.ykecomo.operators.ErrorHandler;
 import com.homecooking.ykecomo.operators.location.AddressToStringFunc;
@@ -111,7 +115,10 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
     protected ArrayList<ProductCategory> mMenuList = new ArrayList<ProductCategory>();
     protected ArrayList<Member> mMenuChefList = new ArrayList<Member>();
     protected ArrayList<Favorite> mMenuWishList = new ArrayList<>();
-    protected ArrayList<?> mMenuMessageList = new ArrayList<>();
+    protected ArrayList<Message> mMenuMessageList = new ArrayList<>();
+    protected ArrayList<MessageThread> mMessageThreadList = new ArrayList<MessageThread>();
+    protected ArrayList<Order> mOrderLists;
+    protected ArrayList<OrderItem> mOrderItemLists = new ArrayList<OrderItem>();
 
     public void setMenuList(ArrayList<ProductCategory> mMenuList) {
         this.mMenuList = mMenuList;
@@ -161,11 +168,11 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
         if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
 
-            mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, this);
-            mChefsFragement = MenuFragment.newInstance(mSelectedMode, this);
-            mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, this);
-            mMessageFragment = MenuFragment.newInstance(mSelectedMode, this);
-            mShoppingFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mProductCategoriesFragment = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
+            mChefsFragement = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
+            mFavoriteFragment = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
+            mMessageFragment = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
+            mShoppingFragment = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
 
             mFragments.add(mProductCategoriesFragment);
             mFragments.add(mChefsFragement);
@@ -173,7 +180,7 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
             mFragments.add(mMessageFragment);
             mFragments.add(mShoppingFragment);
         }else{
-            mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, this);
+            mProductsChefFragment = MenuFragment.newInstance(mSelectedMode, getApplicationContext());
             mFragments.add(mProductsChefFragment);
         }
         mSelectedFragment = (MenuFragment) mFragments.get(0);
@@ -487,11 +494,14 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
 
     protected void getFavorites(){ }
 
+    protected void getMessageThreads(){ }
+
     protected ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageSelected(int position) {
             mSelectedFragment = mFragments.get(position);
+            Log.e("onPageSelected", ""+ position);
             if(mSelectedMode == Constants.USER_ENVIRONMENT_MODE){
                 switch (position){
                     case 0:
@@ -510,6 +520,12 @@ public class BaseMenuActivity extends AppCompatActivity implements MenuFragment.
                         if(mMenuWishList.size() == 0){
                             showProgress(true);
                             getFavorites();
+                        }
+                        break;
+                    case 3:
+                        if(mMessageThreadList.size() == 0){
+                            showProgress(true);
+                            getMessageThreads();
                         }
                         break;
                 }
